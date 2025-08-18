@@ -11,9 +11,12 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'App',
-
-  data: () => ({
-    //
-  }),
 });
 </script>
+
+<style>
+.v-application .v-main {
+  background-color: #f5f5f5 !important; /* Açık gri */
+  min-height: 100vh;
+}
+</style>
