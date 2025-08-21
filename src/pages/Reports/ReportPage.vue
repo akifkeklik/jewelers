@@ -1,16 +1,6 @@
 <template>
   <v-container fluid class="py-4">
 
-    <!-- 1. ÜST ÖZET KPI KARTLARI -->
-    <v-row dense class="mb-4">
-      <v-col cols="12" sm="3" v-for="kpi in kpis" :key="kpi.title">
-        <v-card :color="kpi.color" dark class="pa-4">
-          <div class="text-subtitle-2">{{ kpi.title }}</div>
-          <div class="text-h5 font-weight-bold">{{ kpi.value }}</div>
-          <div class="caption">{{ kpi.subtitle }}</div>
-        </v-card>
-      </v-col>
-    </v-row>
 
     <!-- 2. GRAFİKLER -->
     <v-row dense class="mb-4">
