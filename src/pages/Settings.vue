@@ -1,76 +1,9 @@
 <template>
   <v-container fluid>
     <v-row>
-      <!-- Genel Ayarlar -->
-      <v-col cols="12" md="6">
-        <v-card class="app-card" elevation="4">
-          <v-card-title class="section-header">Genel Ayarlar</v-card-title>
-          <v-divider></v-divider>
-
-          <v-card-text>
-            <v-form ref="generalSettingsForm">
-              <v-text-field
-                  v-model="settings.companyName"
-                  label="Sistem Adı"
-                  outlined
-              ></v-text-field>
-
-              <v-file-input
-                  v-model="settings.logo"
-                  label="Logo Yükle"
-                  outlined
-                  accept="image/*"
-              ></v-file-input>
-
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <!-- Fiyatlandırma Ayarları -->
-      <v-col cols="12" md="6">
-        <v-card class="app-card" elevation="4">
-          <v-card-title class="section-header">Fiyatlandırma Ayarları</v-card-title>
-          <v-divider></v-divider>
-
-          <v-card-text>
-            <v-form ref="pricingSettingsForm">
-              <v-row>
-                <v-col cols="4">
-                  <v-text-field
-                      v-model="settings.goldPrice"
-                      label="Altın (₺)"
-                      outlined
-                      type="number"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="4">
-                  <v-text-field
-                      v-model="settings.dollarPrice"
-                      label="Dolar (₺)"
-                      outlined
-                      type="number"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="4">
-                  <v-text-field
-                      v-model="settings.euroPrice"
-                      label="Euro (₺)"
-                      outlined
-                      type="number"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <v-row>
       <!-- Kullanıcı Ayarları -->
       <v-col cols="12" md="6">
-        <v-card class="app-card" elevation="4">
+        <v-card class="app-card" elevation="6" rounded="xl" height="100%">
           <v-card-title class="section-header">Kullanıcı Ayarları</v-card-title>
           <v-divider></v-divider>
 
@@ -79,24 +12,38 @@
               <v-text-field
                   v-model="settings.adminEmail"
                   label="Admin E-Posta"
+                  dense
                   outlined
+                  class="mb-3"
               ></v-text-field>
 
               <v-text-field
                   v-model="settings.password"
                   label="Şifre"
                   outlined
+                  dense
                   type="password"
+                  :rules="[v => v.length >= 6 || 'Şifre en az 6 karakter olmalı']"
+                  class="mb-3"
               ></v-text-field>
 
               <v-text-field
                   v-model="settings.confirmPassword"
                   label="Şifreyi Tekrar Girin"
                   outlined
+                  dense
                   type="password"
+                  class="mb-3"
               ></v-text-field>
 
-              <v-btn color="indigo darken-3" class="white--text mt-3" @click="changePassword">
+              <v-btn
+                  color="indigo darken-3"
+                  class="white--text mt-3"
+                  elevation="2"
+                  rounded
+                  @click="changePassword"
+              >
+                <v-icon left>mdi-lock-reset</v-icon>
                 Şifreyi Değiştir
               </v-btn>
             </v-form>
@@ -106,16 +53,13 @@
 
       <!-- Bildirim Ayarları -->
       <v-col cols="12" md="6">
-        <v-card class="app-card" elevation="4">
+        <v-card class="app-card" elevation="6" rounded="xl" height="100%">
           <v-card-title class="section-header">Bildirim Ayarları</v-card-title>
           <v-divider></v-divider>
 
           <v-card-text>
             <v-form ref="notificationSettingsForm">
-              <v-switch
-                  v-model="settings.emailNotifications"
-                  inset
-              >
+              <v-switch v-model="settings.emailNotifications" inset>
                 <template v-slot:label>
                   <v-icon small class="mr-2">mdi-email</v-icon>
                   E-Posta Bildirimleri
@@ -123,17 +67,21 @@
               </v-switch>
               <small class="ml-8 text-grey">Önemli duyurular için önerilir</small>
 
-              <v-switch
-                  v-model="settings.smsNotifications"
-                  inset
-              >
+              <v-switch v-model="settings.smsNotifications" inset>
                 <template v-slot:label>
-                  <v-icon small class="mr-2">mdi-message-text</v-icon>
+                  <v-icon small class="mr-2 ">mdi-message-text</v-icon>
                   SMS Bildirimleri
                 </template>
               </v-switch>
-
-              <v-btn color="indigo darken-3" class="white--text mt-3" @click="saveSettings">
+<br><br><br>
+              <v-btn
+                  color="indigo darken-3"
+                  class="white--text mt-5"
+                  elevation="2"
+                  rounded
+                  @click="saveSettings"
+              >
+                <v-icon left>mdi-content-save</v-icon>
                 Ayarları Kaydet
               </v-btn>
             </v-form>
@@ -142,10 +90,10 @@
       </v-col>
     </v-row>
 
-    <!-- Güvenlik Ayarları -->
-    <v-row>
-      <v-col cols="12">
-        <v-card class="app-card" elevation="4">
+    <v-row class="mt-4">
+      <!-- Güvenlik Ayarları -->
+      <v-col cols="12" md="6">
+        <v-card class="app-card" elevation="6" rounded="xl" height="100%">
           <v-card-title class="section-header">Güvenlik Ayarları</v-card-title>
           <v-divider></v-divider>
 
@@ -161,33 +109,49 @@
                   inset
               ></v-switch>
 
-              <v-btn color="indigo darken-3" class="white--text mt-3" @click="saveSecuritySettings">
+              <v-btn
+                  color="indigo darken-3"
+                  class="white--text mt-3"
+                  elevation="2"
+                  rounded
+                  @click="saveSecuritySettings"
+              >
+                <v-icon left>mdi-shield-check</v-icon>
                 Güvenlik Ayarlarını Kaydet
               </v-btn>
             </v-form>
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
 
-    <!-- Veri Yedekleme -->
-    <v-row>
-      <v-col cols="12">
-        <v-card class="app-card" elevation="4">
+      <!-- Veri Yedekleme -->
+      <v-col cols="12" md="6">
+        <v-card class="app-card" elevation="6" rounded="xl" height="100%">
           <v-card-title class="section-header">Veri Yedekleme</v-card-title>
           <v-divider></v-divider>
 
+          <p class="text-caption mt-2  ml-3 text-grey">
+            Son Yedekleme:
+            <v-chip small color="indigo lighten-5">
+              {{ lastBackup || 'Henüz yapılmadı' }}
+            </v-chip>
+          </p>
           <v-card-text>
-            <v-btn color="error" dark @click="backupData">
+            <br><br><br>
+            <v-btn color="error" dark rounded elevation="2" @click="backupData" class="mt-5">
+              <v-icon left>mdi-database-export</v-icon>
               Veri Yedekle
             </v-btn>
-            <p class="text-caption mt-2 text-grey">
-              Son Yedekleme: {{ lastBackup || 'Henüz yapılmadı' }}
-            </p>
+
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
+
+    <!-- Snackbar -->
+    <v-snackbar v-model="snackbar.show" :color="snackbar.color" timeout="3000">
+      {{ snackbar.message }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -196,12 +160,6 @@ export default {
   data() {
     return {
       settings: {
-        companyName: 'KALE Kuyumculuk',
-        logo: null,
-        darkMode: false,
-        goldPrice: 900,
-        dollarPrice: 40.85,
-        euroPrice: 47.50,
         adminEmail: 'admin@kale.com',
         password: '',
         confirmPassword: '',
@@ -210,25 +168,35 @@ export default {
         twoFactorAuth: true,
       },
       lastBackup: null,
+      snackbar: {
+        show: false,
+        message: '',
+        color: 'success',
+      },
     };
   },
   methods: {
+    showSnackbar(msg, color = 'success') {
+      this.snackbar.message = msg;
+      this.snackbar.color = color;
+      this.snackbar.show = true;
+    },
     changePassword() {
       if (this.settings.password !== this.settings.confirmPassword) {
-        alert('Şifreler uyuşmuyor.');
+        this.showSnackbar('Şifreler uyuşmuyor.', 'error');
         return;
       }
-      alert('Şifre başarıyla değiştirildi.');
+      this.showSnackbar('Şifre başarıyla değiştirildi.');
     },
     saveSettings() {
-      alert('Ayarlar başarıyla kaydedildi.');
+      this.showSnackbar('Ayarlar başarıyla kaydedildi.');
     },
     saveSecuritySettings() {
-      alert('Güvenlik ayarları başarıyla kaydedildi.');
+      this.showSnackbar('Güvenlik ayarları başarıyla kaydedildi.');
     },
     backupData() {
       this.lastBackup = new Date().toLocaleString();
-      alert('Veri başarıyla yedeklendi.');
+      this.showSnackbar('Veri başarıyla yedeklendi.');
     },
   },
 };
@@ -239,16 +207,21 @@ export default {
   border-radius: 16px;
   background: #fdfdfd;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
 }
 
 .section-header {
-  background: linear-gradient(90deg, #2C3E50, #34495E);
-  color: #FFD700;
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  color: #fff;
   font-weight: bold;
+  padding: 10px 16px;
+  border-radius: 12px 12px 0 0;
 }
 
 .v-btn {
   text-transform: none;
   font-weight: 600;
+  letter-spacing: 0.3px;
 }
 </style>

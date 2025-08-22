@@ -57,24 +57,32 @@
 <script>
 export default {
   name: "CustomerForm",
+  props: {
+    musteriProp: { type: Object, default: null } // düzenleme için prop
+  },
   data() {
     return {
       valid: false,
-      musteri: {
-        id: Date.now(),
-        ad: "",
-        soyad: "",
-        telefon: "",
-        email: "",
-        etiket: "Yeni",
-        notlar: "",
-        satislar: []
-      }
+      musteri: this.musteriProp
+          ? { ...this.musteriProp }
+          : {
+            id: null,
+            ad: "",
+            soyad: "",
+            telefon: "",
+            email: "",
+            etiket: "Yeni",
+            notlar: "",
+            satislar: []
+          }
     };
   },
   methods: {
     kaydet() {
       if (this.$refs.form.validate()) {
+        if (!this.musteri.id) {
+          this.musteri.id = Date.now(); // yeni müşteri için ID oluştur
+        }
         this.$emit("ekle", { ...this.musteri });
         this.$emit("close");
         this.resetForm();
@@ -82,7 +90,7 @@ export default {
     },
     resetForm() {
       this.musteri = {
-        id: Date.now(),
+        id: null,
         ad: "",
         soyad: "",
         telefon: "",
@@ -92,6 +100,24 @@ export default {
         satislar: []
       };
       this.$refs.form.resetValidation();
+    }
+  },
+  watch: {
+    musteriProp: {
+      handler(val) {
+        this.musteri = val ? { ...val } : {
+          id: null,
+          ad: "",
+          soyad: "",
+          telefon: "",
+          email: "",
+          etiket: "Yeni",
+          notlar: "",
+          satislar: []
+        };
+      },
+      deep: true,
+      immediate: true
     }
   }
 };

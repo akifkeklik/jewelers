@@ -1,6 +1,7 @@
 <template>
   <v-container fluid>
-    <h2 class="mb-4">Müşteriler </h2>
+    <h2 class="mb-4">Müşteriler</h2>
+
     <!-- KPI Kartları -->
     <v-row class="mb-4">
       <v-col cols="12" md="3" v-for="card in kpiCards" :key="card.title">
@@ -14,8 +15,8 @@
 
     <v-row>
       <!-- Sol Panel: Müşteri Listesi -->
-      <v-col cols="12" md="4">
-        <v-card class="pa-3">
+      <v-col cols="12" md="4" class="d-flex">
+        <v-card class="pa-3 flex-grow-1">
           <v-text-field
               v-model="search"
               label="Müşteri Ara"
@@ -47,15 +48,15 @@
           </v-data-table>
 
           <!-- Yeni Müşteri Butonu -->
-          <v-btn color="primary" block class="mt-3" @click="dialog = true">
+          <v-btn color="primary" block class="mt-3" @click="openNew">
             <v-icon left>mdi-account-plus</v-icon> Yeni Müşteri
           </v-btn>
         </v-card>
       </v-col>
 
       <!-- Sağ Panel: Müşteri Detayı -->
-      <v-col cols="12" md="8" v-if="selectedMusteri">
-        <v-card class="pa-4">
+      <v-col cols="12" md="8" v-if="selectedMusteri" class="d-flex">
+        <v-card class="pa-4 flex-grow-1">
           <v-row>
             <v-col cols="8">
               <h3>{{ selectedMusteri.ad }} {{ selectedMusteri.soyad }}</h3>
@@ -66,7 +67,9 @@
               </v-chip>
             </v-col>
             <v-col cols="4" class="text-right">
-              <v-btn icon color="primary"><v-icon>mdi-pencil</v-icon></v-btn>
+              <v-btn icon color="primary" @click="editMusteri(selectedMusteri)">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
               <v-btn icon color="error" @click="onDelete(selectedMusteri)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -104,12 +107,17 @@
       </v-col>
     </v-row>
 
-    <!-- Yeni Müşteri Dialog -->
+    <!-- Yeni / Düzenleme Müşteri Dialog -->
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
-        <v-card-title>Müşteri Ekle</v-card-title>
+        <v-card-title>{{ editMode ? 'Müşteri Düzenle' : 'Müşteri Ekle' }}</v-card-title>
         <v-card-text>
-          <CustomerForm @ekle="musteriEkle" @close="dialog=false"/>
+          <CustomerForm
+              ref="customerForm"
+              :musteriProp="editTarget"
+              @ekle="musteriKaydet"
+              @close="dialog=false"
+          />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -146,6 +154,8 @@ export default {
       deleteDialog: false,
       deleteTarget: null,
       snackbar: { show: false, text: "", color: "success" },
+      editMode: false,
+      editTarget: null,
       headers: [
         { text: "Ad", value: "ad" },
         { text: "Soyad", value: "soyad" },
@@ -190,7 +200,9 @@ export default {
   computed: {
     filteredMusteriler() {
       return this.musteriler.filter(m =>
-          (m.ad + " " + m.soyad).toLowerCase().includes(this.search.toLowerCase())
+          (m.ad + " " + m.soyad + " " + m.telefon + " " + m.email)
+              .toLowerCase()
+              .includes(this.search.toLowerCase())
       );
     }
   },
@@ -198,10 +210,26 @@ export default {
     selectMusteri(m) {
       this.selectedMusteri = m;
     },
-    musteriEkle(yeniMusteri) {
-      this.musteriler.push(yeniMusteri);
+    openNew() {
+      this.editMode = false;
+      this.editTarget = null;
+      this.dialog = true;
+    },
+    musteriKaydet(musteri) {
+      if (this.editMode) {
+        const index = this.musteriler.findIndex(m => m.id === musteri.id);
+        if (index !== -1) this.musteriler.splice(index, 1, musteri);
+        this.showSnackbar("Müşteri güncellendi", "info");
+      } else {
+        this.musteriler.push(musteri);
+        this.showSnackbar("Müşteri başarıyla eklendi", "success");
+      }
       this.dialog = false;
-      this.showSnackbar("Müşteri başarıyla eklendi", "success");
+    },
+    editMusteri(m) {
+      this.editMode = true;
+      this.editTarget = { ...m };
+      this.dialog = true;
     },
     onDelete(musteri) {
       this.deleteDialog = true;
