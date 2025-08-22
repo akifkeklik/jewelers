@@ -1,14 +1,16 @@
 <template>
   <v-container fluid>
-    <!-- İstatistik Kartları -->
-    <StatsCards />
-
     <v-row dense>
       <!-- Altın Fiyatları -->
       <v-col cols="12" md="6">
-        <v-card class="pa-4 custom-card">
+        <v-card class="pa-4 custom-gold-card">
           <v-card-title class="card-title">Altın Fiyatları</v-card-title>
-          <v-data-table :headers="headers" :items="altinFiyatlari" hide-default-footer item-class="price-table-item">
+          <v-data-table
+              :headers="headers"
+              :items="altinFiyatlari"
+              hide-default-footer
+              item-class="price-table-item"
+          >
             <template v-slot:item.alis="{ item }">
               <div class="price-box">
                 <span :class="getClass(item.alis)">{{ cleanValue(item.alis) }}</span>
@@ -25,9 +27,14 @@
 
       <!-- Döviz Fiyatları -->
       <v-col cols="12" md="6">
-        <v-card class="pa-4 custom-card">
+        <v-card class="pa-4 custom-gold-card">
           <v-card-title class="card-title">Döviz Fiyatları</v-card-title>
-          <v-data-table :headers="headers" :items="dovizFiyatlari" hide-default-footer item-class="price-table-item">
+          <v-data-table
+              :headers="headers"
+              :items="dovizFiyatlari"
+              hide-default-footer
+              item-class="price-table-item"
+          >
             <template v-slot:item.alis="{ item }">
               <div class="price-box">
                 <span :class="getClass(item.alis)">{{ cleanValue(item.alis) }}</span>
@@ -44,9 +51,14 @@
 
       <!-- Yeni Sarrafiye -->
       <v-col cols="12" md="6">
-        <v-card class="pa-4 custom-card">
+        <v-card class="pa-4 custom-gold-card">
           <v-card-title class="card-title">Sarrafiye Fiyatları (Yeni)</v-card-title>
-          <v-data-table :headers="headers" :items="yeniSarrafiye" hide-default-footer item-class="price-table-item">
+          <v-data-table
+              :headers="headers"
+              :items="yeniSarrafiye"
+              hide-default-footer
+              item-class="price-table-item"
+          >
             <template v-slot:item.alis="{ item }">
               <div class="price-box">{{ item.alis }}</div>
             </template>
@@ -59,9 +71,14 @@
 
       <!-- Eski Sarrafiye -->
       <v-col cols="12" md="6">
-        <v-card class="pa-4 custom-card">
+        <v-card class="pa-4 custom-gold-card">
           <v-card-title class="card-title">Sarrafiye Fiyatları (Eski)</v-card-title>
-          <v-data-table :headers="headers" :items="eskiSarrafiye" hide-default-footer item-class="price-table-item">
+          <v-data-table
+              :headers="headers"
+              :items="eskiSarrafiye"
+              hide-default-footer
+              item-class="price-table-item"
+          >
             <template v-slot:item.alis="{ item }">
               <div class="price-box">{{ item.alis }}</div>
             </template>
@@ -130,37 +147,50 @@ export default {
 </script>
 
 <style scoped>
-.custom-card {
-
+.custom-gold-card {
   color: #2c2c2c;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease-in-out;
-  background-color: rgba(); /* Pastel altın rengi şeffaf arka plan */
+
+  /* Açık altın rengi arka plan */
+  background-color: rgba(255, 223, 100, 0.25);
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 215, 0, 0.4);
 }
 
-.custom-card:hover {
-  transform: scale(1.05); /* Hoverda büyütme */
+.custom-gold-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(255, 215, 0, 0.5);
 }
 
 .card-title {
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 8px 15px;
   color: #2c2c2c;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .price-table-item {
-  color: #ffd700;
+  /* Kart rengine karşı okunabilir koyuluk */
+  color: #333 !important;
 }
 
 .price-box {
   font-weight: bold;
   font-size: 1.1rem;
   text-align: center;
-  padding: 8px;
+  padding: 6px;
+}
+
+.text-green {
+  color: #2e7d32 !important;
+}
+
+.text-red {
+  color: #c62828 !important;
 }
 </style>

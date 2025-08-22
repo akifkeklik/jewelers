@@ -3,61 +3,66 @@
     <v-row>
       <!-- Genel Ayarlar -->
       <v-col cols="12" md="6">
-        <v-card>
-          <v-card-title class="text-h6">Genel Ayarlar</v-card-title>
+        <v-card class="app-card" elevation="4">
+          <v-card-title class="section-header">Genel Ayarlar</v-card-title>
           <v-divider></v-divider>
 
-          <v-form ref="generalSettingsForm">
-            <v-text-field
-                v-model="settings.companyName"
-                label="Sistem Adı"
-                outlined
-            ></v-text-field>
+          <v-card-text>
+            <v-form ref="generalSettingsForm">
+              <v-text-field
+                  v-model="settings.companyName"
+                  label="Sistem Adı"
+                  outlined
+              ></v-text-field>
 
-            <v-file-input
-                v-model="settings.logo"
-                label="Logo Yükle"
-                outlined
-                accept="image/*"
-            ></v-file-input>
+              <v-file-input
+                  v-model="settings.logo"
+                  label="Logo Yükle"
+                  outlined
+                  accept="image/*"
+              ></v-file-input>
 
-            <v-switch
-                v-model="settings.darkMode"
-                label="Karanlık Mod"
-                inset
-            ></v-switch>
-          </v-form>
+            </v-form>
+          </v-card-text>
         </v-card>
       </v-col>
 
       <!-- Fiyatlandırma Ayarları -->
       <v-col cols="12" md="6">
-        <v-card>
-          <v-card-title class="text-h6">Fiyatlandırma Ayarları</v-card-title>
+        <v-card class="app-card" elevation="4">
+          <v-card-title class="section-header">Fiyatlandırma Ayarları</v-card-title>
           <v-divider></v-divider>
 
-          <v-form ref="pricingSettingsForm">
-            <v-text-field
-                v-model="settings.goldPrice"
-                label="Altın Fiyatı (TL)"
-                outlined
-                type="number"
-            ></v-text-field>
-
-            <v-text-field
-                v-model="settings.dollarPrice"
-                label="Dolar Fiyatı (TL)"
-                outlined
-                type="number"
-            ></v-text-field>
-
-            <v-text-field
-                v-model="settings.euroPrice"
-                label="Euro Fiyatı (TL)"
-                outlined
-                type="number"
-            ></v-text-field>
-          </v-form>
+          <v-card-text>
+            <v-form ref="pricingSettingsForm">
+              <v-row>
+                <v-col cols="4">
+                  <v-text-field
+                      v-model="settings.goldPrice"
+                      label="Altın (₺)"
+                      outlined
+                      type="number"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="4">
+                  <v-text-field
+                      v-model="settings.dollarPrice"
+                      label="Dolar (₺)"
+                      outlined
+                      type="number"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="4">
+                  <v-text-field
+                      v-model="settings.euroPrice"
+                      label="Euro (₺)"
+                      outlined
+                      type="number"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -65,57 +70,74 @@
     <v-row>
       <!-- Kullanıcı Ayarları -->
       <v-col cols="12" md="6">
-        <v-card>
-          <v-card-title class="text-h6">Kullanıcı Ayarları</v-card-title>
+        <v-card class="app-card" elevation="4">
+          <v-card-title class="section-header">Kullanıcı Ayarları</v-card-title>
           <v-divider></v-divider>
 
-          <v-form ref="userSettingsForm">
-            <v-text-field
-                v-model="settings.adminEmail"
-                label="Admin E-Posta"
-                outlined
-            ></v-text-field>
+          <v-card-text>
+            <v-form ref="userSettingsForm">
+              <v-text-field
+                  v-model="settings.adminEmail"
+                  label="Admin E-Posta"
+                  outlined
+              ></v-text-field>
 
-            <v-text-field
-                v-model="settings.password"
-                label="Şifre"
-                outlined
-                type="password"
-            ></v-text-field>
+              <v-text-field
+                  v-model="settings.password"
+                  label="Şifre"
+                  outlined
+                  type="password"
+              ></v-text-field>
 
-            <v-text-field
-                v-model="settings.confirmPassword"
-                label="Şifreyi Tekrar Girin"
-                outlined
-                type="password"
-            ></v-text-field>
+              <v-text-field
+                  v-model="settings.confirmPassword"
+                  label="Şifreyi Tekrar Girin"
+                  outlined
+                  type="password"
+              ></v-text-field>
 
-            <v-btn color="primary" @click="changePassword">Şifreyi Değiştir</v-btn>
-          </v-form>
+              <v-btn color="indigo darken-3" class="white--text mt-3" @click="changePassword">
+                Şifreyi Değiştir
+              </v-btn>
+            </v-form>
+          </v-card-text>
         </v-card>
       </v-col>
 
       <!-- Bildirim Ayarları -->
       <v-col cols="12" md="6">
-        <v-card>
-          <v-card-title class="text-h6">Bildirim Ayarları</v-card-title>
+        <v-card class="app-card" elevation="4">
+          <v-card-title class="section-header">Bildirim Ayarları</v-card-title>
           <v-divider></v-divider>
 
-          <v-form ref="notificationSettingsForm">
-            <v-switch
-                v-model="settings.emailNotifications"
-                label="E-Posta Bildirimleri"
-                inset
-            ></v-switch>
+          <v-card-text>
+            <v-form ref="notificationSettingsForm">
+              <v-switch
+                  v-model="settings.emailNotifications"
+                  inset
+              >
+                <template v-slot:label>
+                  <v-icon small class="mr-2">mdi-email</v-icon>
+                  E-Posta Bildirimleri
+                </template>
+              </v-switch>
+              <small class="ml-8 text-grey">Önemli duyurular için önerilir</small>
 
-            <v-switch
-                v-model="settings.smsNotifications"
-                label="SMS Bildirimleri"
-                inset
-            ></v-switch>
+              <v-switch
+                  v-model="settings.smsNotifications"
+                  inset
+              >
+                <template v-slot:label>
+                  <v-icon small class="mr-2">mdi-message-text</v-icon>
+                  SMS Bildirimleri
+                </template>
+              </v-switch>
 
-            <v-btn color="primary" @click="saveSettings">Ayarları Kaydet</v-btn>
-          </v-form>
+              <v-btn color="indigo darken-3" class="white--text mt-3" @click="saveSettings">
+                Ayarları Kaydet
+              </v-btn>
+            </v-form>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -123,19 +145,27 @@
     <!-- Güvenlik Ayarları -->
     <v-row>
       <v-col cols="12">
-        <v-card>
-          <v-card-title class="text-h6">Güvenlik Ayarları</v-card-title>
+        <v-card class="app-card" elevation="4">
+          <v-card-title class="section-header">Güvenlik Ayarları</v-card-title>
           <v-divider></v-divider>
 
-          <v-form ref="securitySettingsForm">
-            <v-switch
-                v-model="settings.twoFactorAuth"
-                label="İki Adımlı Doğrulama"
-                inset
-            ></v-switch>
+          <v-card-text>
+            <v-form ref="securitySettingsForm">
+              <v-alert type="info" outlined dense class="mb-3">
+                İki adımlı doğrulama hesabınızın güvenliğini artırır.
+              </v-alert>
 
-            <v-btn color="primary" @click="saveSecuritySettings">Güvenlik Ayarlarını Kaydet</v-btn>
-          </v-form>
+              <v-switch
+                  v-model="settings.twoFactorAuth"
+                  label="İki Adımlı Doğrulama"
+                  inset
+              ></v-switch>
+
+              <v-btn color="indigo darken-3" class="white--text mt-3" @click="saveSecuritySettings">
+                Güvenlik Ayarlarını Kaydet
+              </v-btn>
+            </v-form>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -143,11 +173,18 @@
     <!-- Veri Yedekleme -->
     <v-row>
       <v-col cols="12">
-        <v-card>
-          <v-card-title class="text-h6">Veri Yedekleme</v-card-title>
+        <v-card class="app-card" elevation="4">
+          <v-card-title class="section-header">Veri Yedekleme</v-card-title>
           <v-divider></v-divider>
 
-          <v-btn color="error" @click="backupData">Veri Yedekle</v-btn>
+          <v-card-text>
+            <v-btn color="error" dark @click="backupData">
+              Veri Yedekle
+            </v-btn>
+            <p class="text-caption mt-2 text-grey">
+              Son Yedekleme: {{ lastBackup || 'Henüz yapılmadı' }}
+            </p>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -172,6 +209,7 @@ export default {
         smsNotifications: false,
         twoFactorAuth: true,
       },
+      lastBackup: null,
     };
   },
   methods: {
@@ -180,19 +218,16 @@ export default {
         alert('Şifreler uyuşmuyor.');
         return;
       }
-      // Şifre değişikliği işlemleri
       alert('Şifre başarıyla değiştirildi.');
     },
     saveSettings() {
-      // Ayarları kaydetme işlemleri
       alert('Ayarlar başarıyla kaydedildi.');
     },
     saveSecuritySettings() {
-      // Güvenlik ayarlarını kaydetme işlemleri
       alert('Güvenlik ayarları başarıyla kaydedildi.');
     },
     backupData() {
-      // Veri yedekleme işlemleri
+      this.lastBackup = new Date().toLocaleString();
       alert('Veri başarıyla yedeklendi.');
     },
   },
@@ -200,11 +235,20 @@ export default {
 </script>
 
 <style scoped>
-.v-card {
-  margin-bottom: 20px;
+.app-card {
+  border-radius: 16px;
+  background: #fdfdfd;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.section-header {
+  background: linear-gradient(90deg, #2C3E50, #34495E);
+  color: #FFD700;
+  font-weight: bold;
 }
 
 .v-btn {
-  margin-top: 20px;
+  text-transform: none;
+  font-weight: 600;
 }
 </style>

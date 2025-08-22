@@ -1,79 +1,57 @@
 <template>
   <v-app>
-    <!-- Üst Bar (App Bar) -->
-    <v-app-bar app color="#FFD700" dark flat>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title class="d-flex align-center">
-        <v-icon color="black" left>mdi-diamond-stone</v-icon>
-        <span class="ml-2 font-weight-bold">KALE Kuyumculuk</span>
+    <!-- Üst Bar -->
+    <v-app-bar app flat class="app-bar">
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="menu-btn"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>
+        <v-icon left class="diamond-icon">mdi-diamond-stone</v-icon>
+        <span class="ml-2 font-weight-bold">KALE KUYUMCULUK TİC. LTD. ŞTİ.</span>
       </v-toolbar-title>
+
       <v-spacer></v-spacer>
+
+      <!-- Gece Modu -->
+      <v-btn icon class="dark-toggle" @click="toggleDarkMode">
+        <v-icon>{{ darkMode ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon>
+      </v-btn>
     </v-app-bar>
 
-    <!-- Sol Menü (Side Bar) -->
-    <v-navigation-drawer v-model="drawer" app color="#FFD700" class="side-bar">
+    <!-- Sidebar -->
+    <v-navigation-drawer
+        v-model="drawer"
+        :mini-variant.sync="mini"
+        app
+        class="modern-sidebar"
+    >
       <v-list dense nav>
-        <v-list-item-group v-model="selected" color="black">
-          <v-list-item to="/dashboard" link>
-            <v-list-item-icon>
-              <v-icon>mdi-view-dashboard</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Dashboard</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+        <!-- Menü Aç/Kapa Butonu -->
+        <v-list-item @click="mini = !mini" class="menu-toggle">
+          <v-list-item-icon>
+            <v-icon>mdi-menu</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title v-if="!mini">Menü</v-list-item-title>
+        </v-list-item>
 
-          <v-list-item to="/sales" link>
-            <v-list-item-icon>
-              <v-icon>mdi-cash-multiple</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Satışlar</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+        <v-divider></v-divider>
 
-          <v-list-item to="/products" link>
-            <v-list-item-icon>
-              <v-icon>mdi-package-variant</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Ürünler</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item to="/customers" link>
-            <v-list-item-icon>
-              <v-icon>mdi-account-group</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Müşteriler</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item to="/reports" link>
-            <v-list-item-icon>
-              <v-icon>mdi-chart-line</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Raporlar</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item to="/settings" link>
-            <v-list-item-icon>
-              <v-icon>mdi-cog</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Ayarlar</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
+        <!-- Menü Linkleri -->
+        <v-list-item
+            v-for="item in items"
+            :key="item.title"
+            :to="item.path"
+            link
+            class="sidebar-link"
+        >
+          <v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
+          <v-list-item-title v-if="!mini">{{ item.title }}</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <!-- Sayfa İçeriği -->
+    <!-- İçerik -->
     <v-main>
-      <v-container fluid class="pa-6 bg-color fill-height">
+      <v-container fluid class="pa-6 fill-height" :class="[darkMode ? 'dark-bg' : 'light-bg']">
         <router-view />
       </v-container>
     </v-main>
@@ -86,48 +64,89 @@ export default {
   data() {
     return {
       drawer: true,
-      selected: 0
+      mini: false,
+      darkMode: false,
+      items: [
+        { title: "Ana Sayfa", icon: "mdi-home", path: "/dashboard" },
+        { title: "Değerler", icon: "mdi-cash", path: "/prices" },
+        { title: "Satışlar", icon: "mdi-cart", path: "/sales" },
+        { title: "Ürünler", icon: "mdi-cube", path: "/products" },
+        { title: "Müşteriler", icon: "mdi-account-group", path: "/customers" },
+        { title: "Raporlar", icon: "mdi-chart-line", path: "/reports" },
+        { title: "Ayarlar", icon: "mdi-cog", path: "/settings" },
+        { title: "Hesap Makinesi", icon: "mdi-calculator", path: "/calculator" },
+        { title: "Giriş Yap", icon: "mdi-login", path: "/login" },
+        { title: "Kayıt Ol", icon: "mdi-account-plus", path: "/register" },
+      ]
     };
+  },
+  methods: {
+    toggleDarkMode() {
+      this.darkMode = !this.darkMode;
+    },
   }
 };
 </script>
 
-<style >
+<style>
 .v-application {
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
 }
 
-.v-app-bar {
-  background-color: #5D6E84 !important; /* Altın sarısı renk */
-  color: #FFFFFF !important; /* Yazılar siyah olacak */
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+/* === APP BAR MODERN === */
+.app-bar {
+  background: linear-gradient(90deg, #141e30, #243b55) !important;
+  color: #FFD700 !important;
+}
+.app-bar .title-bar span {
+  color: #FFD700;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+}
+.diamond-icon {
+  color: #FFD700 !important;
+  font-size: 28px;
+}
+.menu-btn {
+  color: #FFD700 !important;
+}
+.dark-toggle {
+  color: #FFD700 !important;
+  transition: 0.3s ease;
+}
+.dark-toggle:hover {
+  transform: rotate(15deg);
+  color: #fff176 !important;
 }
 
-.v-navigation-drawer {
-  background-color: #5D6E84 !important; /* Altın sarısı renk */
-  color: #FFFFFF !important; /* Yazılar siyah */
-  box-shadow: 4px 0px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
+/* === SIDEBAR MODERN === */
+.modern-sidebar {
+  background: linear-gradient(90deg, #141e30, #243b55) !important;
+  color: #FFD700 !important;
+}
+.modern-sidebar .v-list-item,
+.modern-sidebar .v-icon {
+  color: #FFD700 !important;
+}
+.menu-toggle {
+  color: #FFD700 !important;
+}
+.sidebar-link {
+  transition: 0.3s ease;
+  border-radius: 8px;
+  color: #FFD700 !important;
+}
+.sidebar-link:hover {
+  background: linear-gradient(90deg, rgba(255,215,0,0.2), transparent);
+  box-shadow: inset 2px 0 0 #FFD700;
 }
 
-.side-bar .v-list-item {
-  transition: background-color 0.2s ease;
+/* === SAYFA BACKGROUND === */
+.light-bg {
+  background: linear-gradient(135deg, #ffffff, #fff9e6) !important;
+  color: #222 !important;
 }
-
-.side-bar .v-list-item:hover {
-  background-color: rgba(0, 0, 0, 0.1); /* Hoverda siyah bir geçiş */
-}
-
-.side-bar .v-list-item-title {
-  color: #333333 !important; /* Siyah yazılar */
-}
-
-.side-bar .v-list-item-icon .v-icon {
-  color: #333333 !important; /* Siyah ikonlar */
-}
-.bg-color{
-  background-color: #DBD4FF ;
-  color:black ;
-  border-color: #f5f5f5 ;
+.dark-bg {
+  background: linear-gradient(135deg, #141e30, #0f2027) !important;
+  color: #f5f5f5 !important;
 }
 </style>
