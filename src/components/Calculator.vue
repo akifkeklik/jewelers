@@ -2,13 +2,13 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" md="8">
-        <v-card elevation="8" class="pa-6 rounded-xl">
+        <v-card elevation="10" class="pa-6 calc-card">
           <!-- Başlık -->
-          <v-card-title class="text-h6 font-weight-bold">
+          <v-card-title class="calc-header">
             <v-icon left color="amber darken-3">mdi-calculator-variant</v-icon>
             Kuyumculuk Hesap Makinesi
           </v-card-title>
-          <v-divider class="my-3"></v-divider>
+          <v-divider class="mb-4"></v-divider>
 
           <!-- Girdi Alanları -->
           <v-row>
@@ -19,7 +19,7 @@
                     label="Miktar"
                     type="number"
                     dense
-                    solo
+                    outlined
                     hide-details
                     prepend-inner-icon="mdi-scale-balance"
                 />
@@ -31,9 +31,11 @@
                 <v-select
                     v-model="selectedUnit"
                     :items="units"
+                    item-text="text"
+                    item-value="value"
                     label="Birim Seç"
                     dense
-                    solo
+                    outlined
                     hide-details
                     prepend-inner-icon="mdi-diamond-stone"
                 />
@@ -41,19 +43,17 @@
             </v-col>
           </v-row>
 
-          <v-divider class="my-3"></v-divider>
-
           <!-- Hesaplama Sonucu -->
-          <v-card outlined class="pa-4 text-center glass-result">
-            <div class="text-h6">Sonuç</div>
-            <div class="text-h5 font-weight-bold amber--text mt-2">
+          <v-card outlined class="pa-5 mt-4 result-card text-center">
+            <div class="text-h6 font-weight-medium gold-text">Sonuç</div>
+            <div class="text-h5 font-weight-bold mt-2 gold-text">
               {{ formattedResult }}
             </div>
           </v-card>
 
           <!-- Tablo -->
-          <v-card class="mt-6" outlined>
-            <v-card-title class="text-subtitle-1">
+          <v-card class="mt-6 table-card" outlined>
+            <v-card-title class="text-subtitle-1 font-weight-bold gold-text">
               Güncel Birim Fiyatları
             </v-card-title>
             <v-simple-table dense>
@@ -102,55 +102,65 @@ export default {
       const unit = this.units.find((u) => u.value === this.selectedUnit);
       const totalGrams = this.amount * unit.gram;
       const totalPrice = totalGrams * this.pricePerGram;
-      return `${this.amount} ${unit.text} ≈ ${totalGrams.toFixed(
-          2
-      )} gr | ${totalPrice.toLocaleString()} ₺`;
+      return `${this.amount} ${unit.text} ≈ ${totalGrams.toFixed(2)} gr | ${totalPrice.toLocaleString()} ₺`;
     },
   },
 };
 </script>
 
 <style scoped>
-.v-card {
-  background: linear-gradient(135deg, #4b5d70, #5a6f84);
-  color: white;
-  border-radius: 16px;
+/* Ana kart */
+.calc-card {
+  border-radius: 20px;
+  background: linear-gradient(135deg, #1e293b, #2a3c5f);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-/* Input kartları daha modern */
+/* Başlık */
+.calc-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #FFD700;
+}
+
+/* Input kartları */
 .input-card {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 14px;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 .input-card:hover {
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
-}
-
-/* Input içindeki ikonlar */
-.v-input__prepend-inner .v-icon {
-  color: #ffca28 !important;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
 }
 
 /* Sonuç kartı */
-.glass-result {
-  background: rgba(0, 0, 0, 0.25);
-  border-radius: 14px;
-  color: white;
-  padding: 16px;
+.result-card {
+  border-radius: 16px;
+  background: rgba(255, 215, 0, 0.08);
+}
+.gold-text {
+  color: #FFD700 !important;
 }
 
 /* Tablo */
-.v-simple-table {
-  background-color: #f3f3f3;
-  border-radius: 10px;
+.table-card {
+  border-radius: 16px;
+  background: #f9f9f9;
+}
+.v-simple-table thead {
+  background: #f1f1f1;
 }
 .v-simple-table th {
-  color: #ffca28;
-  font-weight: bold;
+  font-weight: 600;
+  color: #444;
+}
+.v-simple-table td {
+  font-weight: 500;
+  color: #333;
 }
 .v-simple-table tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: #fffbe6;
 }
 </style>

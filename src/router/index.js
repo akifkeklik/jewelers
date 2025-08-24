@@ -26,6 +26,6 @@ export default new Router({
         { path: "/calculator", name: "Calculator", component: CalculatorPage },
 
         // Varsayılan yönlendirme
-        { path: "*", redirect: "/login" }
+        { path: "*", redirect: "/dashboard" }
     ]
 });

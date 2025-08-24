@@ -13,10 +13,10 @@
       </v-col>
     </v-row>
 
+    <!-- Müşteri Listesi -->
     <v-row>
-      <!-- Sol Panel: Müşteri Listesi -->
-      <v-col cols="12" md="4" class="d-flex">
-        <v-card class="pa-3 flex-grow-1">
+      <v-col cols="12">
+        <v-card class="pa-3">
           <v-text-field
               v-model="search"
               label="Müşteri Ara"
@@ -53,32 +53,26 @@
           </v-btn>
         </v-card>
       </v-col>
+    </v-row>
 
-      <!-- Sağ Panel: Müşteri Detayı -->
-      <v-col cols="12" md="8" v-if="selectedMusteri" class="d-flex">
-        <v-card class="pa-4 flex-grow-1">
-          <v-row>
-            <v-col cols="8">
-              <h3>{{ selectedMusteri.ad }} {{ selectedMusteri.soyad }}</h3>
-              <p><v-icon small>mdi-phone</v-icon> {{ selectedMusteri.telefon }}</p>
-              <p><v-icon small>mdi-email</v-icon> {{ selectedMusteri.email }}</p>
-              <v-chip small :color="getEtiketRenk(selectedMusteri.etiket)" dark>
-                {{ selectedMusteri.etiket }}
-              </v-chip>
-            </v-col>
-            <v-col cols="4" class="text-right">
-              <v-btn icon color="primary" @click="editMusteri(selectedMusteri)">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-              <v-btn icon color="error" @click="onDelete(selectedMusteri)">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
+    <!-- 📌 Detay Dialog -->
+    <v-dialog v-model="detailDialog" max-width="700px">
+      <v-card>
+        <v-card-title>
+          {{ selectedMusteri?.ad }} {{ selectedMusteri?.soyad }}
+          <v-spacer></v-spacer>
+          <v-btn icon @click="detailDialog=false"><v-icon>mdi-close</v-icon></v-btn>
+        </v-card-title>
+
+        <v-card-text v-if="selectedMusteri">
+          <p><v-icon small>mdi-phone</v-icon> {{ selectedMusteri.telefon }}</p>
+          <p><v-icon small>mdi-email</v-icon> {{ selectedMusteri.email }}</p>
+          <v-chip small :color="getEtiketRenk(selectedMusteri.etiket)" dark>
+            {{ selectedMusteri.etiket }}
+          </v-chip>
 
           <v-divider class="my-3"></v-divider>
 
-          <!-- Satış Geçmişi -->
           <h4>Satış Geçmişi</h4>
           <v-simple-table dense>
             <thead>
@@ -95,7 +89,6 @@
 
           <v-divider class="my-3"></v-divider>
 
-          <!-- Notlar -->
           <h4>Notlar</h4>
           <v-textarea
               v-model="selectedMusteri.notlar"
@@ -103,9 +96,18 @@
               outlined
               rows="3"
           ></v-textarea>
-        </v-card>
-      </v-col>
-    </v-row>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn color="primary" @click="editMusteri(selectedMusteri)">
+            <v-icon left>mdi-pencil</v-icon> Düzenle
+          </v-btn>
+          <v-btn color="error" @click="onDelete(selectedMusteri)">
+            <v-icon left>mdi-delete</v-icon> Sil
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <!-- Yeni / Düzenleme Müşteri Dialog -->
     <v-dialog v-model="dialog" max-width="500px">
@@ -150,6 +152,7 @@ export default {
     return {
       search: "",
       selectedMusteri: null,
+      detailDialog: false, // 👈 yeni eklendi
       dialog: false,
       deleteDialog: false,
       deleteTarget: null,
@@ -209,6 +212,7 @@ export default {
   methods: {
     selectMusteri(m) {
       this.selectedMusteri = m;
+      this.detailDialog = true; // 👈 dialog açılır
     },
     openNew() {
       this.editMode = false;

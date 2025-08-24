@@ -65,7 +65,7 @@ export default {
     return {
       drawer: true,
       mini: false,
-      darkMode: false,
+      darkMode: true, // 🌙 Default olarak gece modu aktif!
       items: [
         { title: "Ana Sayfa", icon: "mdi-home", path: "/dashboard" },
         { title: "Değerler", icon: "mdi-cash", path: "/prices" },
@@ -74,9 +74,7 @@ export default {
         { title: "Müşteriler", icon: "mdi-account-group", path: "/customers" },
         { title: "Raporlar", icon: "mdi-chart-line", path: "/reports" },
         { title: "Ayarlar", icon: "mdi-cog", path: "/settings" },
-        { title: "Hesap Makinesi", icon: "mdi-calculator", path: "/calculator" },
-        { title: "Giriş Yap", icon: "mdi-login", path: "/login" },
-        { title: "Kayıt Ol", icon: "mdi-account-plus", path: "/register" },
+        { title: "Hesap Makinesi", icon: "mdi-calculator", path: "/calculator" }
       ]
     };
   },
@@ -97,10 +95,6 @@ export default {
 .app-bar {
   background: linear-gradient(90deg, #141e30, #243b55) !important;
   color: #FFD700 !important;
-}
-.app-bar .title-bar span {
-  color: #FFD700;
-  text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
 }
 .diamond-icon {
   color: #FFD700 !important;
@@ -127,9 +121,6 @@ export default {
 .modern-sidebar .v-icon {
   color: #FFD700 !important;
 }
-.menu-toggle {
-  color: #FFD700 !important;
-}
 .sidebar-link {
   transition: 0.3s ease;
   border-radius: 8px;
@@ -142,7 +133,7 @@ export default {
 
 /* === SAYFA BACKGROUND === */
 .light-bg {
-  background: linear-gradient(135deg, #ffffff, #fff9e6) !important;
+  background: linear-gradient(135deg, #e6f2f8, #f0faff) !important; /* Pastel buz mavisi */
   color: #222 !important;
 }
 .dark-bg {

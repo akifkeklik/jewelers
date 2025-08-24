@@ -1,56 +1,6 @@
 <template>
   <v-container fluid>
     <v-row>
-      <!-- Kullanıcı Ayarları -->
-      <v-col cols="12" md="6">
-        <v-card class="app-card" elevation="6" rounded="xl" height="100%">
-          <v-card-title class="section-header">Kullanıcı Ayarları</v-card-title>
-          <v-divider></v-divider>
-
-          <v-card-text>
-            <v-form ref="userSettingsForm">
-              <v-text-field
-                  v-model="settings.adminEmail"
-                  label="Admin E-Posta"
-                  dense
-                  outlined
-                  class="mb-3"
-              ></v-text-field>
-
-              <v-text-field
-                  v-model="settings.password"
-                  label="Şifre"
-                  outlined
-                  dense
-                  type="password"
-                  :rules="[v => v.length >= 6 || 'Şifre en az 6 karakter olmalı']"
-                  class="mb-3"
-              ></v-text-field>
-
-              <v-text-field
-                  v-model="settings.confirmPassword"
-                  label="Şifreyi Tekrar Girin"
-                  outlined
-                  dense
-                  type="password"
-                  class="mb-3"
-              ></v-text-field>
-
-              <v-btn
-                  color="indigo darken-3"
-                  class="white--text mt-3"
-                  elevation="2"
-                  rounded
-                  @click="changePassword"
-              >
-                <v-icon left>mdi-lock-reset</v-icon>
-                Şifreyi Değiştir
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
       <!-- Bildirim Ayarları -->
       <v-col cols="12" md="6">
         <v-card class="app-card" elevation="6" rounded="xl" height="100%">
@@ -69,11 +19,11 @@
 
               <v-switch v-model="settings.smsNotifications" inset>
                 <template v-slot:label>
-                  <v-icon small class="mr-2 ">mdi-message-text</v-icon>
+                  <v-icon small class="mr-2">mdi-message-text</v-icon>
                   SMS Bildirimleri
                 </template>
               </v-switch>
-<br><br><br>
+
               <v-btn
                   color="indigo darken-3"
                   class="white--text mt-5"
@@ -88,9 +38,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-    </v-row>
 
-    <v-row class="mt-4">
       <!-- Güvenlik Ayarları -->
       <v-col cols="12" md="6">
         <v-card class="app-card" elevation="6" rounded="xl" height="100%">
@@ -123,26 +71,33 @@
           </v-card-text>
         </v-card>
       </v-col>
+    </v-row>
 
+    <v-row class="mt-4">
       <!-- Veri Yedekleme -->
       <v-col cols="12" md="6">
         <v-card class="app-card" elevation="6" rounded="xl" height="100%">
           <v-card-title class="section-header">Veri Yedekleme</v-card-title>
           <v-divider></v-divider>
 
-          <p class="text-caption mt-2  ml-3 text-grey">
+          <p class="text-caption mt-2 ml-3 text-grey">
             Son Yedekleme:
             <v-chip small color="indigo lighten-5">
               {{ lastBackup || 'Henüz yapılmadı' }}
             </v-chip>
           </p>
           <v-card-text>
-            <br><br><br>
-            <v-btn color="error" dark rounded elevation="2" @click="backupData" class="mt-5">
+            <v-btn
+                color="error"
+                dark
+                rounded
+                elevation="2"
+                @click="backupData"
+                class="mt-5"
+            >
               <v-icon left>mdi-database-export</v-icon>
               Veri Yedekle
             </v-btn>
-
           </v-card-text>
         </v-card>
       </v-col>
@@ -160,9 +115,6 @@ export default {
   data() {
     return {
       settings: {
-        adminEmail: 'admin@kale.com',
-        password: '',
-        confirmPassword: '',
         emailNotifications: true,
         smsNotifications: false,
         twoFactorAuth: true,
@@ -170,58 +122,86 @@ export default {
       lastBackup: null,
       snackbar: {
         show: false,
-        message: '',
-        color: 'success',
+        message: "",
+        color: "success",
       },
     };
   },
   methods: {
-    showSnackbar(msg, color = 'success') {
+    showSnackbar(msg, color = "success") {
       this.snackbar.message = msg;
       this.snackbar.color = color;
       this.snackbar.show = true;
     },
-    changePassword() {
-      if (this.settings.password !== this.settings.confirmPassword) {
-        this.showSnackbar('Şifreler uyuşmuyor.', 'error');
-        return;
-      }
-      this.showSnackbar('Şifre başarıyla değiştirildi.');
-    },
     saveSettings() {
-      this.showSnackbar('Ayarlar başarıyla kaydedildi.');
+      this.showSnackbar("Ayarlar başarıyla kaydedildi.");
     },
     saveSecuritySettings() {
-      this.showSnackbar('Güvenlik ayarları başarıyla kaydedildi.');
+      this.showSnackbar("Güvenlik ayarları başarıyla kaydedildi.");
     },
     backupData() {
       this.lastBackup = new Date().toLocaleString();
-      this.showSnackbar('Veri başarıyla yedeklendi.');
+      this.showSnackbar("Veri başarıyla yedeklendi.");
     },
   },
 };
 </script>
 
 <style scoped>
+* {
+  font-family: "Inter", "Roboto", sans-serif;
+}
+
+.v-container {
+  background: #f5f6fa;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+/* Kartlar */
 .app-card {
-  border-radius: 16px;
-  background: #fdfdfd;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  background: #f0f0f0;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
   display: flex;
   flex-direction: column;
+  height: 100%;
+}
+.app-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
+/* Başlık */
 .section-header {
-  background: linear-gradient(90deg, #1e3c72, #2a5298);
-  color: #fff;
-  font-weight: bold;
-  padding: 10px 16px;
-  border-radius: 12px 12px 0 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2a2a2a;
+  padding: 12px 18px;
+  border-bottom: 2px solid #ddd;
+  background: #e5e5e5;
+  border-radius: 20px 20px 0 0;
 }
 
+/* Switch & Buton */
+.v-input--switch .v-label {
+  color: #444 !important;
+  font-weight: 500;
+}
 .v-btn {
   text-transform: none;
   font-weight: 600;
-  letter-spacing: 0.3px;
+  border-radius: 12px;
+  padding: 8px 20px;
+}
+.v-btn:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Küçük metinler */
+.text-grey {
+  font-size: 0.8rem;
+  color: #555 !important;
 }
 </style>

@@ -1,18 +1,13 @@
 <template>
-  <v-card class="pa-4 mb-4">
-    <v-form @submit.prevent="submitForm">
-      <v-text-field v-model="urun.ad" label="Ürün Adı" outlined dense></v-text-field>
-      <v-select
-          v-model="urun.kategori"
-          :items="['Altın', 'Gümüş', 'Pırlanta']"
-          label="Kategori"
-          outlined
-          dense
-      />
-      <v-text-field v-model="urun.gram" type="number" label="Gram" outlined dense></v-text-field>
-      <v-text-field v-model="urun.fiyat" type="number" label="Fiyat (₺)" outlined dense></v-text-field>
+  <v-card class="pa-4 mb-4 elevation-2" style="border-radius: 12px;">
+    <v-form v-model="formValid" @submit.prevent="submitForm" ref="urunForm">
+      <v-text-field v-model="urun.ad" label="Ürün Adı" outlined dense :rules="[v => !!v || 'Ürün adı zorunlu']"/>
+      <v-select v-model="urun.kategori" :items="['Altın', 'Gümüş', 'Pırlanta']" label="Kategori" outlined dense :rules="[v => !!v || 'Kategori seçiniz']"/>
+      <v-text-field v-model="urun.gram" type="number" label="Gram" outlined dense :rules="[v => v > 0 || 'Gram > 0 olmalı']"/>
+      <v-text-field v-model="urun.fiyat" type="number" label="Fiyat (₺)" outlined dense :rules="[v => v > 0 || 'Fiyat > 0 olmalı']"/>
+      <v-text-field v-model="urun.barkod" label="Barkod" outlined dense />
 
-      <v-btn type="submit" color="primary" class="mt-3">
+      <v-btn type="submit" color="primary" class="mt-3" :disabled="!formValid">
         Kaydet
       </v-btn>
     </v-form>
@@ -27,18 +22,19 @@ export default {
         ad: "",
         kategori: "",
         gram: "",
-        fiyat: ""
-      }
+        fiyat: "",
+        barkod: ""
+      },
+      formValid: false
     };
   },
   methods: {
     submitForm() {
-      if (!this.urun.ad || !this.urun.fiyat) {
-        alert("Ürün adı ve fiyat zorunludur!");
-        return;
+      if (this.$refs.urunForm.validate()) {
+        this.$emit("urunEklendi", { ...this.urun, id: Date.now() });
+        this.urun = { ad: "", kategori: "", gram: "", fiyat: "", barkod: "" };
+        this.$refs.urunForm.resetValidation();
       }
-      this.$emit("urunEklendi", { ...this.urun, id: Date.now() });
-      this.urun = { ad: "", kategori: "", gram: "", fiyat: "" };
     }
   }
 };
