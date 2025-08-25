@@ -140,4 +140,19 @@ export default {
   background: linear-gradient(135deg, #141e30, #0f2027) !important;
   color: #f5f5f5 !important;
 }
+
+/* === GLOBAL KART STİLİ === */
+.v-card {
+  border-radius: 20px !important; /* tüm kart köşeleri yuvarlatıldı */
+  overflow: hidden;               /* içerde taşma olmasın */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08) !important;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  background: #fdfdfd !important; /* soft beyaz arka plan */
+}
+.v-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12) !important;
+}
 </style>

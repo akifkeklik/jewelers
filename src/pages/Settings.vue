@@ -3,7 +3,7 @@
     <v-row>
       <!-- Bildirim Ayarları -->
       <v-col cols="12" md="6">
-        <v-card class="app-card" elevation="6" rounded="xl" height="100%">
+        <v-card elevation="6">
           <v-card-title class="section-header">Bildirim Ayarları</v-card-title>
           <v-divider></v-divider>
 
@@ -25,7 +25,7 @@
               </v-switch>
 
               <v-btn
-                  color="indigo darken-3"
+                  color="amber darken-2"
                   class="white--text mt-5"
                   elevation="2"
                   rounded
@@ -41,7 +41,7 @@
 
       <!-- Güvenlik Ayarları -->
       <v-col cols="12" md="6">
-        <v-card class="app-card" elevation="6" rounded="xl" height="100%">
+        <v-card elevation="6">
           <v-card-title class="section-header">Güvenlik Ayarları</v-card-title>
           <v-divider></v-divider>
 
@@ -58,7 +58,7 @@
               ></v-switch>
 
               <v-btn
-                  color="indigo darken-3"
+                  color="amber darken-2"
                   class="white--text mt-3"
                   elevation="2"
                   rounded
@@ -76,16 +76,17 @@
     <v-row class="mt-4">
       <!-- Veri Yedekleme -->
       <v-col cols="12" md="6">
-        <v-card class="app-card" elevation="6" rounded="xl" height="100%">
+        <v-card elevation="6">
           <v-card-title class="section-header">Veri Yedekleme</v-card-title>
           <v-divider></v-divider>
 
           <p class="text-caption mt-2 ml-3 text-grey">
             Son Yedekleme:
-            <v-chip small color="indigo lighten-5">
+            <v-chip small color="amber lighten-4" text-color="black">
               {{ lastBackup || 'Henüz yapılmadı' }}
             </v-chip>
           </p>
+
           <v-card-text>
             <v-btn
                 color="error"
@@ -148,60 +149,14 @@ export default {
 </script>
 
 <style scoped>
-* {
-  font-family: "Inter", "Roboto", sans-serif;
-}
-
-.v-container {
-  background: #f5f6fa;
-  min-height: 100vh;
-  padding: 24px;
-}
-
-/* Kartlar */
-.app-card {
-  border-radius: 20px;
-  background: #f0f0f0;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-  transition: 0.3s;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.app-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-}
-
-/* Başlık */
 .section-header {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #2a2a2a;
-  padding: 12px 18px;
-  border-bottom: 2px solid #ddd;
-  background: #e5e5e5;
-  border-radius: 20px 20px 0 0;
-}
-
-/* Switch & Buton */
-.v-input--switch .v-label {
-  color: #444 !important;
-  font-weight: 500;
-}
-.v-btn {
-  text-transform: none;
+  font-size: 1.1rem;
   font-weight: 600;
-  border-radius: 12px;
-  padding: 8px 20px;
+  color: #FFD700; /* Altın uyumlu */
+  padding: 12px 16px;
 }
-.v-btn:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Küçük metinler */
 .text-grey {
   font-size: 0.8rem;
-  color: #555 !important;
+  color: #ccc !important;
 }
 </style>

@@ -89,15 +89,19 @@
     <!-- Grafikler -->
     <v-row class="mt-6">
       <v-col cols="12" md="6">
-        <v-card>
+        <v-card class="pa-4">
           <v-card-title>Aylık Satışlar</v-card-title>
-          <BarChart :chart-data="salesChartData" />
+          <div style="height:300px;">
+            <BarChart :data="salesChartData" :options="chartOptions" />
+          </div>
         </v-card>
       </v-col>
       <v-col cols="12" md="6">
-        <v-card>
+        <v-card class="pa-4">
           <v-card-title>Ürün Bazlı Dağılım</v-card-title>
-          <PieChart :chart-data="productChartData" />
+          <div style="height:300px;">
+            <PieChart :data="productChartData" :options="chartOptions" />
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -122,9 +126,18 @@
 </template>
 
 <script>
-// Grafikler için chart.js wrapper
 import { Bar, Pie } from "vue-chartjs";
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, ArcElement, CategoryScale, LinearScale } from "chart.js";
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
+
 ChartJS.register(Title, Tooltip, Legend, BarElement, ArcElement, CategoryScale, LinearScale);
 
 export default {
@@ -141,6 +154,7 @@ export default {
       selectedCustomer: null,
       addSaleDialog: false,
       newSale: { customer: "", product: "", quantity: 1, total: 0 },
+
       headers: [
         { text: "Satış ID", value: "id" },
         { text: "Müşteri", value: "customer" },
@@ -150,25 +164,48 @@ export default {
         { text: "Tarih", value: "date" },
         { text: "İşlemler", value: "actions", sortable: false },
       ],
+
       salesData: [
         { id: 1, customer: "Ahmet Yılmaz", product: "Altın Yüzük", quantity: 2, total: 1200, date: "2025-08-20" },
         { id: 2, customer: "Fatma Akın", product: "Gümüş Kolye", quantity: 1, total: 300, date: "2025-08-19" },
         { id: 3, customer: "Mehmet Kaya", product: "Altın Bilezik", quantity: 3, total: 4500, date: "2025-08-18" },
         { id: 4, customer: "Ayşe Demir", product: "Gümüş Yüzük", quantity: 1, total: 200, date: "2025-08-17" },
       ],
+
       kpis: [
         { label: "Toplam Satış", value: "4", icon: "mdi-cart" },
         { label: "Toplam Ciro", value: "₺6.200", icon: "mdi-cash" },
         { label: "En Çok Satılan", value: "Altın Bilezik", icon: "mdi-star" },
         { label: "Müşteri Sayısı", value: "4", icon: "mdi-account-group" },
       ],
+
       salesChartData: {
         labels: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs"],
-        datasets: [{ label: "Aylık Satışlar", backgroundColor: "#FFD700", data: [2000, 2500, 3000, 3500, 4000] }],
+        datasets: [
+          { label: "Aylık Satışlar", backgroundColor: "#FFD700", data: [2000, 2500, 3000, 3500, 4000] },
+        ],
       },
       productChartData: {
         labels: ["Altın Yüzük", "Gümüş Kolye", "Altın Bilezik", "Gümüş Yüzük"],
-        datasets: [{ label: "Ürünler", backgroundColor: ["#FFD700", "#C0C0C0", "#DAA520", "#A9A9A9"], data: [2, 1, 3, 1] }],
+        datasets: [
+          {
+            label: "Ürünler",
+            backgroundColor: ["#FFD700", "#C0C0C0", "#DAA520", "#A9A9A9"],
+            data: [2, 1, 3, 1],
+          },
+        ],
+      },
+
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: "#333", font: { size: 14 } } },
+        },
+        scales: {
+          x: { ticks: { color: "#333" }, grid: { color: "#eee" } },
+          y: { ticks: { color: "#333" }, grid: { color: "#eee" } },
+        },
       },
     };
   },

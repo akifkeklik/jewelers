@@ -1,13 +1,21 @@
 <template>
   <v-container fluid class="py-6">
 
-    <!-- KPI Kartları -->
+    <!-- ✅ KPI Kartları -->
     <v-row dense class="mb-6">
       <v-col cols="12" md="3" v-for="kpi in kpis" :key="kpi.title">
         <v-card outlined class="pa-6 text-center kpi-card">
           <v-icon x-large class="mb-3" :color="kpi.color">{{ kpi.icon }}</v-icon>
           <h2 class="kpi-value">{{ kpi.value }}</h2>
           <p class="kpi-title">{{ kpi.title }}</p>
+
+          <!-- Trend göstergesi -->
+          <div class="kpi-trend mt-2" :class="kpi.trend > 0 ? 'trend-up' : 'trend-down'">
+            <v-icon small left>
+              {{ kpi.trend > 0 ? 'mdi-arrow-up-bold' : 'mdi-arrow-down-bold' }}
+            </v-icon>
+            <span>{{ Math.abs(kpi.trend) }}%</span>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -22,7 +30,7 @@
             <template v-slot:item.kar="{ item }">{{ tl(item.kar) }}</template>
           </v-data-table>
           <v-divider/>
-          <div class="pa-3 text-right font-weight-bold">
+          <div class="summary-bar">
             Toplam Satış: {{ dayOrders.length }} |
             Ciro: {{ tl(sumTotal(dayOrders)) }} |
             Kâr: {{ tl(sumKar(dayOrders)) }}
@@ -48,7 +56,7 @@
             <template v-slot:item.kar="{ item }">{{ tl(item.kar) }}</template>
           </v-data-table>
           <v-divider/>
-          <div class="pa-3 text-right font-weight-bold">
+          <div class="summary-bar">
             Ciro: {{ tl(sumTotal(weekOrders)) }} | Kâr: {{ tl(sumKar(weekOrders)) }}
           </div>
         </v-card>
@@ -62,7 +70,7 @@
             <template v-slot:item.kar="{ item }">{{ tl(item.kar) }}</template>
           </v-data-table>
           <v-divider/>
-          <div class="pa-3 text-right font-weight-bold">
+          <div class="summary-bar">
             Ciro: {{ tl(sumTotal(monthOrders)) }} | Kâr: {{ tl(sumKar(monthOrders)) }}
           </div>
         </v-card>
@@ -175,10 +183,10 @@ export default {
       const toplamAdet = [...this.weekOrders, ...this.monthOrders].reduce((t,o)=>t+(o.adet||0),0);
 
       return [
-        { title: "Toplam Ciro", value: this.tl(toplamCiro), icon: "mdi-cash", color: "amber" },
-        { title: "Toplam Kâr", value: this.tl(toplamKar), icon: "mdi-trending-up", color: "light-blue" },
-        { title: "Toplam Satış Adedi", value: toplamAdet, icon: "mdi-cart", color: "deep-purple" },
-        { title: "Toplam Müşteri", value: 480, icon: "mdi-account-group", color: "orange" },
+        { title: "Toplam Ciro", value: this.tl(toplamCiro), icon: "mdi-cash", color: "amber", trend: +12 },
+        { title: "Toplam Kâr", value: this.tl(toplamKar), icon: "mdi-trending-up", color: "light-blue", trend: -5 },
+        { title: "Toplam Satış Adedi", value: toplamAdet, icon: "mdi-cart", color: "deep-purple", trend: +8 },
+        { title: "Toplam Müşteri", value: 480, icon: "mdi-account-group", color: "orange", trend: +3 },
       ];
     }
   },
@@ -194,68 +202,74 @@ export default {
 /* Genel yazı tipi */
 * { font-family: "Inter", "Roboto", sans-serif; }
 
-/* Satırlarda kartların aynı boyda olması için */
-.v-row {
-  align-items: stretch !important;
-}
-.v-col {
-  display: flex;
-  flex-direction: column;
-}
+/* Satır hizalama */
+.v-row { align-items: stretch !important; }
+.v-col { display: flex; flex-direction: column; }
+
+/* Kartların aynı boyda olması */
 .report-card,
 .kpi-card {
-  flex: 1;        /* tüm yükseklik doldur */
-  height: 100%;   /* eşit boy */
+  flex: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-/* Kart stilleri */
-.report-card {
-  background: linear-gradient(135deg, #4b5d70, #5a6f84);
-  color: #fff;
-  border-radius: 20px;
+  justify-content: space-between;
+  border-radius: 16px;
+  background: #fff;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: 0.3s;
 }
-.report-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
-}
-
-/* KPI Kartları */
-.kpi-card {
-  background: linear-gradient(135deg, #5a6f84, #6c8296);
-  border-radius: 20px;
-  color: white;
-  transition: 0.3s;
-}
+.report-card:hover,
 .kpi-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.2);
 }
+
+/* KPI */
 .kpi-value {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
-  color: #ffca28;
+  color: #1976d2;
 }
 .kpi-title {
   font-size: 0.95rem;
-  color: #ddd;
+  color: #666;
+  margin-bottom: 8px;
 }
+.kpi-trend {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.trend-up { color: #4caf50; }
+.trend-down { color: #f44336; }
 
 /* Tablo */
 .v-data-table {
-  background: rgba(255, 255, 255, 0.05);
+  flex: 1;
   border-radius: 12px;
-  color: white;
+  background: #fafafa;
+  color: #444;
+  font-size: 0.9rem;
 }
 .v-data-table thead {
-  background: rgba(255, 255, 255, 0.1);
+  background: #f5f5f5;
   font-weight: bold;
-  color: #ffca28;
+  color: #333;
 }
 .v-data-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(25, 118, 210, 0.08);
+}
+
+/* Tablo altındaki özet */
+.summary-bar {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 8px;
+  color: #222;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: right;
 }
 </style>
-

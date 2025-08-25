@@ -26,10 +26,10 @@ export default {
       cards: [
         { title: "Değerler", subtitle: "Altın, gümüş ve taş fiyatları", icon: "mdi-diamond-stone", path: "/prices", gradient: "linear-gradient(135deg, #FFD700, #FFECB3)" },
         { title: "Satışlar", subtitle: "Satış ve fatura işlemleri", icon: "mdi-cart-outline", path: "/sales", gradient: "linear-gradient(135deg, #81D4FA, #4FC3F7)" },
-        { title: "Ürünler", subtitle: "Stok ve katalog yönetimi", icon: "mdi-cube-outline", path: "/products", gradient: "linear-gradient(135deg, #A5D6A7, #66BB6A)" },
+        { title: "Ürünler", subtitle: "Stok yönetimi", icon: "mdi-cube-outline", path: "/products", gradient: "linear-gradient(135deg, #A5D6A7, #66BB6A)" },
         { title: "Müşteriler", subtitle: "Müşteri bilgileri ve ilişkiler", icon: "mdi-account-group", path: "/customers", gradient: "linear-gradient(135deg, #F48FB1, #EC407A)" },
         { title: "Raporlar", subtitle: "İş analitiği ve raporlar", icon: "mdi-chart-line", path: "/reports", gradient: "linear-gradient(135deg, #B39DDB, #7E57C2)" },
-        { title: "Ayarlar", subtitle: "Kullanıcı ve sistem ayarları", icon: "mdi-cog-outline", path: "/settings", gradient: "linear-gradient(135deg, #CFD8DC, #90A4AE)" },
+        { title: "Ayarlar", subtitle: "Sistem ayarları", icon: "mdi-cog-outline", path: "/settings", gradient: "linear-gradient(135deg, #CFD8DC, #90A4AE)" },
       ],
     };
   },

@@ -2,40 +2,43 @@
   <v-container>
     <h2 class="mb-4">Ürün & Stok Yönetimi</h2>
 
-    <!-- Arama Kutusu -->
-    <v-text-field
-        v-model="search"
-        placeholder="Ürün Ara (Ad / ID / Barkod)"
-        prepend-inner-icon="mdi-magnify"
-        outlined
-        dense
-        hide-details
-        clearable
-        class="search-bar mb-4"
-    />
+    <!-- Ana Kart -->
+    <v-card class="pa-4">
+      <!-- Arama Kutusu -->
+      <v-text-field
+          v-model="search"
+          placeholder="Ürün Ara (Ad / ID / Barkod)"
+          prepend-inner-icon="mdi-magnify"
+          outlined
+          dense
+          hide-details
+          clearable
+          class="search-bar mb-4"
+      />
 
-    <!-- Kamera ile Barkod Tara -->
-    <v-btn color="success" class="mb-4" @click="kameraDialog = true">
-      <v-icon left>mdi-camera</v-icon>
-      Barkod Tara
-    </v-btn>
+      <!-- Kamera ile Barkod Tara -->
+      <v-btn color="success" class="mb-4" @click="kameraDialog = true">
+        <v-icon left>mdi-camera</v-icon>
+        Barkod Tara
+      </v-btn>
 
-    <!-- Ürün Listesi -->
-    <ProductList
-        :urunler="urunler"
-        :search="search"
-        @urunSil="urunSil"
-        @urunDuzenle="duzenlemeBaslat"
-    />
+      <!-- Ürün Listesi -->
+      <ProductList
+          :urunler="urunler"
+          :search="search"
+          @urunSil="urunSil"
+          @urunDuzenle="duzenlemeBaslat"
+      />
+    </v-card>
 
     <!-- Ürün Düzenleme Dialogu -->
     <v-dialog v-model="duzenleDialog" max-width="600px" transition="dialog-bottom-transition">
       <v-card>
-        <v-card-title class="headline">
+        <v-card-title class="headline dialog-header">
           <v-icon left color="blue">mdi-pencil</v-icon>
           Ürün Düzenle
         </v-card-title>
-
+        <v-divider></v-divider>
         <v-card-text>
           <v-form ref="duzenleForm" v-model="duzenleFormValid">
             <v-text-field v-model="seciliUrun.ad" label="Ürün Adı" outlined dense />
@@ -45,7 +48,6 @@
             <v-text-field v-model="seciliUrun.barkod" label="Barkod" outlined dense/>
           </v-form>
         </v-card-text>
-
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text color="grey" @click="duzenleDialog=false">İptal</v-btn>
@@ -57,10 +59,11 @@
     <!-- Yeni Ürün Ekleme Dialogu -->
     <v-dialog v-model="yeniDialog" max-width="600px" transition="dialog-top-transition">
       <v-card>
-        <v-card-title class="headline">
+        <v-card-title class="headline dialog-header">
           <v-icon left color="green">mdi-plus</v-icon>
           Yeni Ürün Ekle
         </v-card-title>
+        <v-divider></v-divider>
         <v-card-text>
           <ProductForm ref="productForm" @urunEklendi="urunEkleDialog" />
         </v-card-text>
@@ -74,10 +77,11 @@
     <!-- Kamera ile Barkod Okuma Dialogu -->
     <v-dialog v-model="kameraDialog" max-width="600px">
       <v-card>
-        <v-card-title>
+        <v-card-title class="dialog-header">
           <v-icon left color="green">mdi-camera</v-icon>
           Barkod Tara
         </v-card-title>
+        <v-divider></v-divider>
         <v-card-text>
           <StreamBarcodeReader @decode="onDecode" />
         </v-card-text>
@@ -109,7 +113,6 @@ export default {
         { id: 5, ad: "Ülker Çikolata", kategori: "Gıda", gram: "0.07", fiyat: 15, barkod: "8690504010019" },
         { id: 6, ad: "Nestlé Su 0.5L", kategori: "Gıda", gram: "0.5", fiyat: 8, barkod: "7613033560123" }
       ],
-
       duzenleDialog: false,
       yeniDialog: false,
       seciliUrun: {},
@@ -142,7 +145,6 @@ export default {
     onDecode(result) {
       this.kameraDialog = false;
       const mevcutUrun = this.urunler.find(u => u.barkod === result);
-
       if (mevcutUrun) {
         this.search = result;
       } else {
@@ -162,15 +164,22 @@ export default {
   background-color: #f1f3f4 !important; /* pastel gri */
   border-radius: 10px !important;
 }
-
 .search-bar input {
   font-size: 14px;
   color: #222;
 }
-
-/* İçine tıklayınca border efekti */
-.search-bar.v-input.v-input--is-focused {
+/* Focus efekti */
+.search-bar.v-input.v-input--is-focused .v-input__slot {
   border: 2px solid #90caf9 !important;
   box-shadow: 0 0 0 2px rgba(144, 202, 249, 0.2);
+  border-radius: 10px;
+}
+/* Dialog başlık stili */
+.dialog-header {
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: #f5f5f5;
+  padding: 12px 16px;
+  border-radius: 20px 20px 0 0;
 }
 </style>
