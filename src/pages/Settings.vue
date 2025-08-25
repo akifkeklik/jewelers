@@ -152,7 +152,7 @@ export default {
 .section-header {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #FFD700; /* Altın uyumlu */
+  color: black; /* Lacivert başlık rengi */
   padding: 12px 16px;
 }
 .text-grey {

@@ -24,7 +24,7 @@
     <v-row dense>
       <v-col cols="12" md="6">
         <v-card outlined class="report-card">
-          <v-card-title class="subtitle-1 font-weight-bold amber--text">GÜNLÜK RAPOR (Tablo)</v-card-title>
+          <v-card-title class="subtitle-1 font-weight-bold card-title">GÜNLÜK RAPOR (Tablo)</v-card-title>
           <v-data-table :headers="orderHeaders" :items="dayOrders" dense hide-default-footer>
             <template v-slot:item.tutar="{ item }">{{ tl(item.tutar) }}</template>
             <template v-slot:item.kar="{ item }">{{ tl(item.kar) }}</template>
@@ -40,7 +40,7 @@
 
       <v-col cols="12" md="6">
         <v-card outlined class="report-card">
-          <v-card-title class="subtitle-1 font-weight-bold amber--text">GÜNLÜK RAPOR (Grafik)</v-card-title>
+          <v-card-title class="subtitle-1 font-weight-bold card-title">GÜNLÜK RAPOR (Grafik)</v-card-title>
           <apexchart type="bar" height="250" :options="dailyOptions" :series="dailySeries"/>
         </v-card>
       </v-col>
@@ -50,7 +50,7 @@
     <v-row dense class="mt-4">
       <v-col cols="12" md="6">
         <v-card outlined class="report-card">
-          <v-card-title class="subtitle-1 font-weight-bold amber--text">HAFTALIK RAPOR</v-card-title>
+          <v-card-title class="subtitle-1 font-weight-bold card-title">HAFTALIK RAPOR</v-card-title>
           <v-data-table :headers="orderHeaders" :items="weekOrders" dense hide-default-footer>
             <template v-slot:item.tutar="{ item }">{{ tl(item.tutar) }}</template>
             <template v-slot:item.kar="{ item }">{{ tl(item.kar) }}</template>
@@ -64,7 +64,7 @@
 
       <v-col cols="12" md="6">
         <v-card outlined class="report-card">
-          <v-card-title class="subtitle-1 font-weight-bold amber--text">AYLIK RAPOR</v-card-title>
+          <v-card-title class="subtitle-1 font-weight-bold card-title">AYLIK RAPOR</v-card-title>
           <v-data-table :headers="orderHeaders" :items="monthOrders" dense hide-default-footer>
             <template v-slot:item.tutar="{ item }">{{ tl(item.tutar) }}</template>
             <template v-slot:item.kar="{ item }">{{ tl(item.kar) }}</template>
@@ -81,7 +81,7 @@
     <v-row dense class="mt-4">
       <v-col cols="12" md="6">
         <v-card outlined class="report-card">
-          <v-card-title class="subtitle-1 font-weight-bold amber--text">BU AY EN ÇOK SATILANLAR</v-card-title>
+          <v-card-title class="subtitle-1 font-weight-bold card-title">BU AY EN ÇOK SATILANLAR</v-card-title>
           <v-data-table :headers="topsHeaders" :items="topSellersMonth" dense hide-default-footer>
             <template v-slot:item.ciro="{ item }">{{ tl(item.ciro) }}</template>
             <template v-slot:item.kar="{ item }">{{ tl(item.kar) }}</template>
@@ -91,7 +91,7 @@
 
       <v-col cols="12" md="6">
         <v-card outlined class="report-card">
-          <v-card-title class="subtitle-1 font-weight-bold amber--text">AZ KALAN STOK!</v-card-title>
+          <v-card-title class="subtitle-1 font-weight-bold card-title">AZ KALAN STOK!</v-card-title>
           <v-data-table :headers="lowHeaders" :items="lowStock" dense hide-default-footer>
             <template v-slot:item.stok="{ item }">
               <v-chip :color="item.stok <= 0 ? 'red' : item.stok <= 5 ? 'orange' : 'green'" text-color="white" small>
@@ -220,13 +220,8 @@ export default {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: 0.3s;
 }
-.report-card:hover,
-.kpi-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.2);
-}
 
-/* KPI */
+/* KPI Başlıkları */
 .kpi-value {
   font-size: 2rem;
   font-weight: bold;
@@ -234,7 +229,7 @@ export default {
 }
 .kpi-title {
   font-size: 0.95rem;
-  color: #666;
+  color: #1976d2; /* Kart başlıkları lacivert tonunda */
   margin-bottom: 8px;
 }
 .kpi-trend {
@@ -258,7 +253,7 @@ export default {
   color: #333;
 }
 .v-data-table tbody tr:hover {
-  background: rgba(25, 118, 210, 0.08);
+  background: rgba(26, 119, 213, 0.08);
 }
 
 /* Tablo altındaki özet */
@@ -272,4 +267,5 @@ export default {
   font-size: 0.9rem;
   text-align: right;
 }
+
 </style>

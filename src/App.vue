@@ -157,5 +157,4 @@ export default {
   background: #fdfdfd !important;
 }
 
-
 </style>

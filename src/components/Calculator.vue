@@ -45,15 +45,15 @@
 
           <!-- Hesaplama Sonucu -->
           <v-card outlined class="pa-5 mt-4 result-card text-center">
-            <div class="text-h6 font-weight-medium gold-text">Sonuç</div>
-            <div class="text-h5 font-weight-bold mt-2 gold-text">
+            <div class="text-h6 font-weight-medium result-text">Sonuç</div>
+            <div class="text-h5 font-weight-bold mt-2 result-text">
               {{ formattedResult }}
             </div>
           </v-card>
 
           <!-- Tablo -->
           <v-card class="mt-6 table-card" outlined>
-            <v-card-title class="text-subtitle-1 font-weight-bold gold-text">
+            <v-card-title class="text-subtitle-1 font-weight-bold result-text">
               Güncel Birim Fiyatları
             </v-card-title>
             <v-simple-table dense>
@@ -121,7 +121,7 @@ export default {
 .calc-header {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #FFD700;
+  color: #black; /* Lacivert renk */
 }
 
 /* Input kartları */
@@ -140,8 +140,8 @@ export default {
   border-radius: 16px;
   background: rgba(255, 215, 0, 0.08);
 }
-.gold-text {
-  color: #FFD700 !important;
+.result-text {
+  color: black !important; /* Lacivert metin rengi */
 }
 
 /* Tablo */
