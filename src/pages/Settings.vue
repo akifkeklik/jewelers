@@ -25,7 +25,7 @@
               </v-switch>
 
               <v-btn
-                  color="amber darken-2"
+                  color="primary"
                   class="white--text mt-5"
                   elevation="2"
                   rounded
@@ -58,7 +58,7 @@
               ></v-switch>
 
               <v-btn
-                  color="amber darken-2"
+                  color="primary"
                   class="white--text mt-3"
                   elevation="2"
                   rounded
@@ -89,7 +89,7 @@
 
           <v-card-text>
             <v-btn
-                color="error"
+                color="primary"
                 dark
                 rounded
                 elevation="2"

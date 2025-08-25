@@ -98,7 +98,8 @@
           ></v-textarea>
         </v-card-text>
 
-        <v-card-actions>
+        <!-- Sağ alt butonlar -->
+        <v-card-actions class="d-flex justify-end">
           <v-btn color="primary" @click="editMusteri(selectedMusteri)">
             <v-icon left>mdi-pencil</v-icon> Düzenle
           </v-btn>
@@ -217,7 +218,7 @@ export default {
     openNew() {
       this.editMode = false;
       this.editTarget = null;
-      this.dialog = true;
+      this.dialog = true; // Yeni müşteri ekleme dialogu açılır
     },
     musteriKaydet(musteri) {
       if (this.editMode) {
@@ -233,11 +234,11 @@ export default {
     editMusteri(m) {
       this.editMode = true;
       this.editTarget = { ...m };
-      this.dialog = true;
+      this.dialog = true; // Müşteri düzenleme dialogu açılır
     },
     onDelete(musteri) {
       this.deleteDialog = true;
-      this.deleteTarget = musteri;
+      this.deleteTarget = musteri; // Silme dialogunu aç
     },
     confirmDelete() {
       this.musteriler = this.musteriler.filter(m => m.id !== this.deleteTarget.id);
@@ -261,3 +262,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.v-card {
+  background-color: #f5f6fa !important;
+}
+</style>

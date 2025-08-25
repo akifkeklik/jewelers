@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <!-- Üst Bar -->
+    <!-- Üst Bar (App Bar) -->
     <v-app-bar app flat class="app-bar">
       <v-app-bar-nav-icon @click="drawer = !drawer" class="menu-btn"></v-app-bar-nav-icon>
 
@@ -11,7 +11,7 @@
 
       <v-spacer></v-spacer>
 
-      <!-- Gece Modu -->
+      <!-- Gece Modu Toggle Butonu -->
       <v-btn icon class="dark-toggle" @click="toggleDarkMode">
         <v-icon>{{ darkMode ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon>
       </v-btn>
@@ -63,9 +63,9 @@ export default {
   name: "App",
   data() {
     return {
-      drawer: true,
-      mini: false,
-      darkMode: true, // 🌙 Default olarak gece modu aktif!
+      drawer: false, // Sidebar başlangıçta kapalı
+      mini: true,    // Menü ikon halinde başlasın
+      darkMode: true, // Gece modu default
       items: [
         { title: "Ana Sayfa", icon: "mdi-home", path: "/dashboard" },
         { title: "Değerler", icon: "mdi-cash", path: "/prices" },
@@ -95,6 +95,8 @@ export default {
 .app-bar {
   background: linear-gradient(90deg, #141e30, #243b55) !important;
   color: #FFD700 !important;
+  font-family: 'Cinzel', serif; /* Başlık fontu - Cinzel */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 .diamond-icon {
   color: #FFD700 !important;
@@ -116,6 +118,7 @@ export default {
 .modern-sidebar {
   background: linear-gradient(90deg, #141e30, #243b55) !important;
   color: #FFD700 !important;
+  box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1);
 }
 .modern-sidebar .v-list-item,
 .modern-sidebar .v-icon {
@@ -125,6 +128,8 @@ export default {
   transition: 0.3s ease;
   border-radius: 8px;
   color: #FFD700 !important;
+  font-family: 'Cinzel', serif; /* Sidebar için Cinzel fontu */
+  font-weight: 600;
 }
 .sidebar-link:hover {
   background: linear-gradient(90deg, rgba(255,215,0,0.2), transparent);
@@ -133,7 +138,7 @@ export default {
 
 /* === SAYFA BACKGROUND === */
 .light-bg {
-  background: linear-gradient(135deg, #e6f2f8, #f0faff) !important; /* Pastel buz mavisi */
+  background: linear-gradient(135deg, #e6f2f8, #f0faff) !important;
   color: #222 !important;
 }
 .dark-bg {
@@ -143,16 +148,17 @@ export default {
 
 /* === GLOBAL KART STİLİ === */
 .v-card {
-  border-radius: 20px !important; /* tüm kart köşeleri yuvarlatıldı */
-  overflow: hidden;               /* içerde taşma olmasın */
+  border-radius: 20px !important;
+  overflow: hidden;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08) !important;
   transition: 0.3s;
   display: flex;
   flex-direction: column;
-  background: #fdfdfd !important; /* soft beyaz arka plan */
+  background: #fdfdfd !important;
 }
 .v-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12) !important;
 }
+
 </style>

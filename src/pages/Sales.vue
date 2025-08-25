@@ -54,7 +54,7 @@
           <v-btn color="primary" class="mr-2" @click="openAddSaleModal">
             <v-icon left>mdi-plus</v-icon> Yeni Satış
           </v-btn>
-          <v-btn outlined color="grey" @click="resetFilters">Temizle</v-btn>
+          <v-btn color="error" @click="resetFilters">Temizle</v-btn>
         </v-col>
       </v-row>
     </v-card>
@@ -116,9 +116,28 @@
           <v-text-field v-model="newSale.quantity" type="number" label="Miktar" outlined />
           <v-text-field v-model="newSale.total" type="number" label="Toplam Tutar" outlined />
         </v-card-text>
-        <v-card-actions>
-          <v-btn text @click="addSaleDialog=false">Vazgeç</v-btn>
+        <v-card-actions class="d-flex justify-end">
+          <!-- İptal butonunu kırmızı yapıyoruz -->
+          <v-btn color="error" @click="addSaleDialog=false">Vazgeç</v-btn>
+          <!-- Kaydet butonunu mavi yapıyoruz -->
           <v-btn color="primary" @click="saveSale">Kaydet</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Satış Düzenleme Dialog -->
+    <v-dialog v-model="editSaleDialog" max-width="500">
+      <v-card>
+        <v-card-title>Satışı Düzenle</v-card-title>
+        <v-card-text>
+          <v-text-field v-model="editedSale.customer" label="Müşteri" outlined />
+          <v-text-field v-model="editedSale.product" label="Ürün" outlined />
+          <v-text-field v-model="editedSale.quantity" type="number" label="Miktar" outlined />
+          <v-text-field v-model="editedSale.total" type="number" label="Toplam Tutar" outlined />
+        </v-card-text>
+        <v-card-actions class="d-flex justify-end">
+          <v-btn color="error" @click="editSaleDialog=false">Vazgeç</v-btn>
+          <v-btn color="primary" @click="saveEditedSale">Kaydet</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -153,7 +172,9 @@ export default {
       formattedDateRange: "",
       selectedCustomer: null,
       addSaleDialog: false,
+      editSaleDialog: false,
       newSale: { customer: "", product: "", quantity: 1, total: 0 },
+      editedSale: { customer: "", product: "", quantity: 1, total: 0 },
 
       headers: [
         { text: "Satış ID", value: "id" },
@@ -255,7 +276,15 @@ export default {
       this.newSale = { customer: "", product: "", quantity: 1, total: 0 };
     },
     editSale(item) {
-      alert(`Düzenlenecek satış: ${item.id}`);
+      this.editedSale = { ...item };
+      this.editSaleDialog = true;
+    },
+    saveEditedSale() {
+      const index = this.salesData.findIndex((sale) => sale.id === this.editedSale.id);
+      if (index !== -1) {
+        this.salesData[index] = this.editedSale;
+        this.editSaleDialog = false;
+      }
     },
     deleteSale(item) {
       this.salesData = this.salesData.filter((s) => s.id !== item.id);

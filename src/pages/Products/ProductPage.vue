@@ -17,7 +17,7 @@
       />
 
       <!-- Kamera ile Barkod Tara -->
-      <v-btn color="success" class="mb-4" @click="kameraDialog = true">
+      <v-btn color="primary" class="mb-4" @click="kameraDialog = true">
         <v-icon left>mdi-camera</v-icon>
         Barkod Tara
       </v-btn>
@@ -50,7 +50,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text color="grey" @click="duzenleDialog=false">İptal</v-btn>
+          <v-btn color="error" @click="duzenleDialog=false">İptal</v-btn>
           <v-btn color="primary" :disabled="!duzenleFormValid" @click="duzenlemeKaydet">Kaydet</v-btn>
         </v-card-actions>
       </v-card>
@@ -60,7 +60,7 @@
     <v-dialog v-model="yeniDialog" max-width="600px" transition="dialog-top-transition">
       <v-card>
         <v-card-title class="headline dialog-header">
-          <v-icon left color="green">mdi-plus</v-icon>
+          <v-icon left color="primary">mdi-plus</v-icon>
           Yeni Ürün Ekle
         </v-card-title>
         <v-divider></v-divider>
@@ -78,7 +78,7 @@
     <v-dialog v-model="kameraDialog" max-width="600px">
       <v-card>
         <v-card-title class="dialog-header">
-          <v-icon left color="green">mdi-camera</v-icon>
+          <v-icon left color="primary">mdi-camera</v-icon>
           Barkod Tara
         </v-card-title>
         <v-divider></v-divider>
@@ -182,4 +182,6 @@ export default {
   padding: 12px 16px;
   border-radius: 20px 20px 0 0;
 }
+
+/* Ürün kartı arka plan rengi */
 </style>
