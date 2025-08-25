@@ -5,7 +5,7 @@
     <v-row dense class="mb-6">
       <v-col cols="12" md="3" v-for="kpi in kpis" :key="kpi.title">
         <v-card outlined class="pa-6 text-center kpi-card">
-          <v-icon x-large class="mb-3" :color="kpi.color">{{ kpi.icon }}</v-icon>
+          <v-icon x-large class="mb-3" :color="kpi.color">{{ kpi.icon }}</v-icon> <!-- Lacivert veya gri renkler -->
           <h2 class="kpi-value">{{ kpi.value }}</h2>
           <p class="kpi-title">{{ kpi.title }}</p>
 
@@ -94,7 +94,8 @@
           <v-card-title class="subtitle-1 font-weight-bold card-title">AZ KALAN STOK!</v-card-title>
           <v-data-table :headers="lowHeaders" :items="lowStock" dense hide-default-footer>
             <template v-slot:item.stok="{ item }">
-              <v-chip :color="item.stok <= 0 ? 'red' : item.stok <= 5 ? 'orange' : 'green'" text-color="white" small>
+              <!-- Üçgen işaretlerinin tümünü lacivert veya gri yapmak -->
+              <v-chip :color="item.stok <= 0 ? 'blue' : item.stok <= 5 ? 'grey' : 'green'" text-color="white" small>
                 <v-icon left small>
                   {{ item.stok <= 0 ? 'mdi-alert-circle' : item.stok <= 5 ? 'mdi-alert' : 'mdi-check-circle' }}
                 </v-icon>
@@ -170,7 +171,7 @@ export default {
         chart: { toolbar: { show: false } },
         plotOptions: { bar: { borderRadius: 6 } },
         dataLabels: { enabled: true },
-        colors: ["#42a5f5"],
+        colors: ["#1E3A8A"], // Lacivert renk
         xaxis: { categories: ["09:00", "11:00", "13:00", "15:00", "17:00"] },
       },
       dailySeries: [{ name: "Ciro", data: [6000, 18500, 30000, 1500, 8000] }]
@@ -183,10 +184,10 @@ export default {
       const toplamAdet = [...this.weekOrders, ...this.monthOrders].reduce((t,o)=>t+(o.adet||0),0);
 
       return [
-        { title: "Toplam Ciro", value: this.tl(toplamCiro), icon: "mdi-cash", color: "amber", trend: +12 },
-        { title: "Toplam Kâr", value: this.tl(toplamKar), icon: "mdi-trending-up", color: "light-blue", trend: -5 },
+        { title: "Toplam Ciro", value: this.tl(toplamCiro), icon: "mdi-cash", color: "grey", trend: +12 },  // Gri renk
+        { title: "Toplam Kâr", value: this.tl(toplamKar), icon: "mdi-trending-up", color: "blue", trend: -5 },  // Lacivert renk
         { title: "Toplam Satış Adedi", value: toplamAdet, icon: "mdi-cart", color: "deep-purple", trend: +8 },
-        { title: "Toplam Müşteri", value: 480, icon: "mdi-account-group", color: "orange", trend: +3 },
+        { title: "Toplam Müşteri", value: 480, icon: "mdi-account-group", color: "#1E3A8A", trend: +3 }, // Lacivert renk
       ];
     }
   },
@@ -267,5 +268,4 @@ export default {
   font-size: 0.9rem;
   text-align: right;
 }
-
 </style>

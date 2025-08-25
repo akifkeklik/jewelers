@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <h2 class="mb-4">Ürün & Stok Yönetimi</h2>
 
     <!-- Ana Kart -->
-    <v-card class="pa-4">
+    <v-card class="pa-6">
       <!-- Arama Kutusu -->
       <v-text-field
           v-model="search"
@@ -13,11 +13,11 @@
           dense
           hide-details
           clearable
-          class="search-bar mb-4"
+          class="search-bar mb-5"
       />
 
       <!-- Kamera ile Barkod Tara -->
-      <v-btn color="primary" class="mb-4" @click="kameraDialog = true">
+      <v-btn color="primary" class="mb-5" @click="kameraDialog = true" block>
         <v-icon left>mdi-camera</v-icon>
         Barkod Tara
       </v-btn>
@@ -31,8 +31,24 @@
       />
     </v-card>
 
+    <!-- Silme Onayı -->
+    <v-dialog v-model="deleteDialog" max-width="500px">
+      <v-card>
+        <v-card-title class="headline delete-title">
+          <span class="delete-text">Silmek istediğinize emin misiniz?</span>
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <!-- İptal Butonu (Sarı) -->
+          <v-btn color="warning" text @click="deleteDialog=false">İptal</v-btn>
+          <!-- Sil Butonu (Kırmızı) -->
+          <v-btn color="red" text @click="confirmDelete">Sil</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Ürün Düzenleme Dialogu -->
-    <v-dialog v-model="duzenleDialog" max-width="600px" transition="dialog-bottom-transition">
+    <v-dialog v-model="duzenleDialog" max-width="700px" transition="dialog-bottom-transition">
       <v-card>
         <v-card-title class="headline dialog-header">
           <v-icon left color="blue">mdi-pencil</v-icon>
@@ -57,7 +73,7 @@
     </v-dialog>
 
     <!-- Yeni Ürün Ekleme Dialogu -->
-    <v-dialog v-model="yeniDialog" max-width="600px" transition="dialog-top-transition">
+    <v-dialog v-model="yeniDialog" max-width="700px" transition="dialog-top-transition">
       <v-card>
         <v-card-title class="headline dialog-header">
           <v-icon left color="primary">mdi-plus</v-icon>
@@ -75,7 +91,7 @@
     </v-dialog>
 
     <!-- Kamera ile Barkod Okuma Dialogu -->
-    <v-dialog v-model="kameraDialog" max-width="600px">
+    <v-dialog v-model="kameraDialog" max-width="700px">
       <v-card>
         <v-card-title class="dialog-header">
           <v-icon left color="primary">mdi-camera</v-icon>
@@ -83,22 +99,27 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-          <StreamBarcodeReader @decode="onDecode" />
+          <StreamBarcodeReader @decode="onDecode" @error="onDecodeError" />
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <!-- Kapat Butonunu Kırmızı Yapalım -->
           <v-btn color="error" @click="kameraDialog=false">Kapat</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Silme İptali ve Onayı için Snackbar -->
+    <v-snackbar v-model="snackbar" color="error" timeout="3000">
+      <span class="white--text">Ürün başarıyla silindi!</span>
+      <v-btn color="pink" text @click="snackbar = false">Kapat</v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
 <script>
+import { StreamBarcodeReader } from 'vue-barcode-reader';  // Burada import ediyorsunuz
 import ProductForm from "./ProductForm.vue";
 import ProductList from "./ProductList.vue";
-import { StreamBarcodeReader } from "vue-barcode-reader";
 
 export default {
   components: { ProductForm, ProductList, StreamBarcodeReader },
@@ -116,8 +137,11 @@ export default {
       ],
       duzenleDialog: false,
       yeniDialog: false,
+      deleteDialog: false, // Yeni silme onayı dialogu state
       seciliUrun: {},
-      duzenleFormValid: false
+      duzenleFormValid: false,
+      urunSilId: null, // Silinecek ürünün ID'si
+      snackbar: false, // Silme başarılı olduğunda gösterilecek snackbar
     };
   },
   methods: {
@@ -126,9 +150,13 @@ export default {
       this.yeniDialog = false;
     },
     urunSil(id) {
-      if (confirm("Bu ürünü silmek istediğinize emin misiniz?")) {
-        this.urunler = this.urunler.filter((u) => u.id !== id);
-      }
+      this.urunSilId = id;  // Silinecek ürün ID'sini kaydediyoruz
+      this.deleteDialog = true; // Yeni silme onay dialogunu gösteriyoruz
+    },
+    confirmDelete() {
+      this.urunler = this.urunler.filter((u) => u.id !== this.urunSilId);
+      this.deleteDialog = false; // Dialogu kapat
+      this.snackbar = true; // Silme başarılı olduğunda snackbar'ı göster
     },
     duzenlemeBaslat(urun) {
       this.seciliUrun = { ...urun };
@@ -155,6 +183,9 @@ export default {
           this.$refs.productForm.urun.barkod = result;
         });
       }
+    },
+    onDecodeError(error) {
+      console.error("Barkod okuma hatası:", error);
     }
   }
 };
@@ -162,27 +193,60 @@ export default {
 
 <style scoped>
 .search-bar {
-  background-color: #f1f3f4 !important; /* pastel gri */
+  background-color: #f1f3f4 !important;
   border-radius: 10px !important;
-}
-.search-bar input {
-  font-size: 14px;
-  color: #222;
-}
-/* Focus efekti */
-.search-bar.v-input.v-input--is-focused .v-input__slot {
-  border: 2px solid #90caf9 !important;
-  box-shadow: 0 0 0 2px rgba(144, 202, 249, 0.2);
-  border-radius: 10px;
-}
-/* Dialog başlık stili */
-.dialog-header {
-  font-size: 1.1rem;
-  font-weight: 600;
-  background: #f5f5f5;
-  padding: 12px 16px;
-  border-radius: 20px 20px 0 0;
+  font-size: 18px !important;
+  padding: 10px !important;
 }
 
-/* Ürün kartı arka plan rengi */
+.search-bar input {
+  font-size: 18px !important;
+  color: #222;
+}
+
+.v-btn {
+  font-size: 18px;
+  padding: 12px 20px;
+}
+
+.v-card {
+  background-color: #f5f6fa !important;
+}
+
+.dialog-header {
+  font-size: 22px;
+}
+
+.dialog-header v-icon {
+  font-size: 24px;
+}
+
+.v-form .v-input {
+  margin-bottom: 15px;
+}
+
+.v-btn {
+  font-size: 18px;
+}
+
+.v-dialog .v-card {
+  padding: 15px;
+}
+
+/* Silme Onay Dialogunun Sağ Alt Köşeye Hizalanması */
+.v-dialog {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.delete-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #222;
+}
+
+.delete-title {
+  font-size: 20px;
+}
 </style>

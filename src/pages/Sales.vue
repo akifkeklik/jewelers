@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="12" sm="6" md="3" v-for="(kpi, index) in kpis" :key="index">
         <v-card class="pa-4 text-center elevation-2" outlined>
-          <v-icon size="32" class="mb-2" color="amber darken-2">{{ kpi.icon }}</v-icon>
+          <v-icon size="32" class="mb-2" color="#1E3A8A">{{ kpi.icon }}</v-icon> <!-- Lacivert Renk -->
           <div class="text-h6">{{ kpi.label }}</div>
           <div class="font-weight-bold text-h5">{{ kpi.value }}</div>
         </v-card>
@@ -79,7 +79,7 @@
           <v-btn icon small @click="editSale(item)">
             <v-icon color="blue">mdi-pencil</v-icon>
           </v-btn>
-          <v-btn icon small @click="deleteSale(item)">
+          <v-btn icon small color="red" @click="onDeleteSale(item)">
             <v-icon color="red">mdi-delete</v-icon>
           </v-btn>
         </template>
@@ -141,6 +141,22 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Satış Silme Onay Dialogu (Çöp) -->
+    <v-dialog v-model="deleteSaleDialog" max-width="500">
+      <v-card>
+        <v-card-title class="headline delete-title">
+          <span class="delete-text">Silmek istediğinize emin misiniz?</span>
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <!-- İptal Butonu (Sarı) -->
+          <v-btn color="warning" text @click="deleteSaleDialog=false">İptal</v-btn>
+          <!-- Sil Butonu (Kırmızı) -->
+          <v-btn color="red" text @click="confirmDeleteSale">Sil</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -175,6 +191,8 @@ export default {
       editSaleDialog: false,
       newSale: { customer: "", product: "", quantity: 1, total: 0 },
       editedSale: { customer: "", product: "", quantity: 1, total: 0 },
+      deleteSaleDialog: false,
+      deleteSaleTarget: null,
 
       headers: [
         { text: "Satış ID", value: "id" },
@@ -203,7 +221,7 @@ export default {
       salesChartData: {
         labels: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs"],
         datasets: [
-          { label: "Aylık Satışlar", backgroundColor: "#FFD700", data: [2000, 2500, 3000, 3500, 4000] },
+          { label: "Aylık Satışlar", backgroundColor: "#1E3A8A", data: [2000, 2500, 3000, 3500, 4000] }, // Lacivert renk
         ],
       },
       productChartData: {
@@ -211,7 +229,7 @@ export default {
         datasets: [
           {
             label: "Ürünler",
-            backgroundColor: ["#FFD700", "#C0C0C0", "#DAA520", "#A9A9A9"],
+            backgroundColor: ["#1E3A8A", "#A9A9A9", "#1E3A8A", "#A9A9A9"], // Lacivert ve Gümüş Gri renkler
             data: [2, 1, 3, 1],
           },
         ],
@@ -288,6 +306,14 @@ export default {
     },
     deleteSale(item) {
       this.salesData = this.salesData.filter((s) => s.id !== item.id);
+    },
+    onDeleteSale(item) {
+      this.deleteSaleTarget = item;
+      this.deleteSaleDialog = true;
+    },
+    confirmDeleteSale() {
+      this.salesData = this.salesData.filter((s) => s.id !== this.deleteSaleTarget.id);
+      this.deleteSaleDialog = false;
     },
   },
 };

@@ -3,80 +3,55 @@
     <v-row>
       <!-- Bildirim Ayarları -->
       <v-col cols="12" md="6">
-        <v-card elevation="6">
+        <v-card elevation="6" class="same-height-card">
           <v-card-title class="section-header">Bildirim Ayarları</v-card-title>
           <v-divider></v-divider>
 
           <v-card-text>
             <v-form ref="notificationSettingsForm">
-              <v-switch v-model="settings.emailNotifications" inset>
-                <template v-slot:label>
-                  <v-icon small class="mr-2">mdi-email</v-icon>
-                  E-Posta Bildirimleri
-                </template>
-              </v-switch>
+              <v-row no-gutters>
+                <v-col cols="12" md="6">
+                  <v-switch v-model="settings.emailNotifications" inset>
+                    <template v-slot:label>
+                      <v-icon small class="mr-2">mdi-email</v-icon>
+                      E-Posta Bildirimleri
+                    </template>
+                  </v-switch>
+                </v-col>
+
+                <v-col cols="12" md="6">
+                  <v-switch v-model="settings.smsNotifications" inset>
+                    <template v-slot:label>
+                      <v-icon small class="mr-2">mdi-message-text</v-icon>
+                      SMS Bildirimleri
+                    </template>
+                  </v-switch>
+                </v-col>
+              </v-row>
+
               <small class="ml-8 text-grey">Önemli duyurular için önerilir</small>
-
-              <v-switch v-model="settings.smsNotifications" inset>
-                <template v-slot:label>
-                  <v-icon small class="mr-2">mdi-message-text</v-icon>
-                  SMS Bildirimleri
-                </template>
-              </v-switch>
-
-              <v-btn
-                  color="primary"
-                  class="white--text mt-5"
-                  elevation="2"
-                  rounded
-                  @click="saveSettings"
-              >
-                <v-icon left>mdi-content-save</v-icon>
-                Ayarları Kaydet
-              </v-btn>
             </v-form>
           </v-card-text>
+
+          <!-- Ayarları Kaydet Butonu -->
+          <v-card-actions class="d-flex justify-end" style="margin-top: auto;">
+            <v-btn
+                color="primary"
+                class="white--text mt-5"
+                elevation="2"
+                rounded
+                @click="saveSettings"
+            >
+              <v-icon left>mdi-content-save</v-icon>
+              Ayarları Kaydet
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
 
-      <!-- Güvenlik Ayarları -->
-      <v-col cols="12" md="6">
-        <v-card elevation="6">
-          <v-card-title class="section-header">Güvenlik Ayarları</v-card-title>
-          <v-divider></v-divider>
-
-          <v-card-text>
-            <v-form ref="securitySettingsForm">
-              <v-alert type="info" outlined dense class="mb-3">
-                İki adımlı doğrulama hesabınızın güvenliğini artırır.
-              </v-alert>
-
-              <v-switch
-                  v-model="settings.twoFactorAuth"
-                  label="İki Adımlı Doğrulama"
-                  inset
-              ></v-switch>
-
-              <v-btn
-                  color="primary"
-                  class="white--text mt-3"
-                  elevation="2"
-                  rounded
-                  @click="saveSecuritySettings"
-              >
-                <v-icon left>mdi-shield-check</v-icon>
-                Güvenlik Ayarlarını Kaydet
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <v-row class="mt-4">
       <!-- Veri Yedekleme -->
       <v-col cols="12" md="6">
-        <v-card elevation="6">
+        <v-card elevation="6" class="same-height-card">
           <v-card-title class="section-header">Veri Yedekleme</v-card-title>
           <v-divider></v-divider>
 
@@ -88,17 +63,19 @@
           </p>
 
           <v-card-text>
-            <v-btn
-                color="primary"
-                dark
-                rounded
-                elevation="2"
-                @click="backupData"
-                class="mt-5"
-            >
-              <v-icon left>mdi-database-export</v-icon>
-              Veri Yedekle
-            </v-btn>
+            <!-- Veri Yedekleme Butonu -->
+            <div class="d-flex justify-end" style="position: absolute; bottom: 10px; right: 10px;">
+              <v-btn
+                  color="primary"
+                  dark
+                  rounded
+                  elevation="2"
+                  @click="backupData"
+              >
+                <v-icon left>mdi-database-export</v-icon>
+                Veri Yedekle
+              </v-btn>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -158,5 +135,16 @@ export default {
 .text-grey {
   font-size: 0.8rem;
   color: #ccc !important;
+}
+
+.same-height-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.v-card-text {
+  flex-grow: 1;
+  position: relative; /* Butonun alt kısımda yerleşmesi için bu gerekli */
 }
 </style>

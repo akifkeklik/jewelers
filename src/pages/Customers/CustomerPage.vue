@@ -1,14 +1,14 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <h2 class="mb-4">Müşteriler</h2>
 
     <!-- KPI Kartları -->
     <v-row class="mb-4">
       <v-col cols="12" md="3" v-for="card in kpiCards" :key="card.title">
-        <v-card class="pa-4 text-center">
-          <v-icon large class="mb-2" color="primary">{{ card.icon }}</v-icon>
-          <h3>{{ card.value }}</h3>
-          <p class="grey--text">{{ card.title }}</p>
+        <v-card class="pa-5 text-center" elevation="10">
+          <v-icon large class="mb-3" color="primary">{{ card.icon }}</v-icon>
+          <h3 class="kpi-card-value">{{ card.value }}</h3>
+          <p class="grey--text kpi-card-title">{{ card.title }}</p>
         </v-card>
       </v-col>
     </v-row>
@@ -22,6 +22,7 @@
               label="Müşteri Ara"
               prepend-icon="mdi-magnify"
               outlined dense
+              class="search-field"
           ></v-text-field>
 
           <v-data-table
@@ -30,6 +31,7 @@
               dense
               :items-per-page="5"
               @click:row="selectMusteri"
+              class="data-table"
           >
             <template v-slot:[`item.etiket`]="{ item }">
               <v-chip small :color="getEtiketRenk(item.etiket)" dark>
@@ -48,14 +50,14 @@
           </v-data-table>
 
           <!-- Yeni Müşteri Butonu -->
-          <v-btn color="primary" block class="mt-3" @click="openNew">
+          <v-btn color="primary" block class="mt-4" @click="openNew">
             <v-icon left>mdi-account-plus</v-icon> Yeni Müşteri
           </v-btn>
         </v-card>
       </v-col>
     </v-row>
 
-    <!-- 📌 Detay Dialog -->
+    <!-- Detay Dialog -->
     <v-dialog v-model="detailDialog" max-width="700px">
       <v-card>
         <v-card-title>
@@ -95,6 +97,7 @@
               label="Müşteri Notları"
               outlined
               rows="3"
+              class="note-textarea"
           ></v-textarea>
         </v-card-text>
 
@@ -126,12 +129,16 @@
     </v-dialog>
 
     <!-- Silme Onayı -->
-    <v-dialog v-model="deleteDialog" max-width="400px">
+    <v-dialog v-model="deleteDialog" max-width="500px">
       <v-card>
-        <v-card-title class="headline">Silmek istediğinize emin misiniz?</v-card-title>
+        <v-card-title class="headline delete-title">
+          <span class="delete-text">Silmek istediğinize emin misiniz?</span>
+        </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="grey" text @click="deleteDialog=false">Vazgeç</v-btn>
+          <!-- İptal Butonu (Sarı) -->
+          <v-btn color="warning" text @click="deleteDialog=false">İptal</v-btn>
+          <!-- Sil Butonu (Kırmızı) -->
           <v-btn color="red" text @click="confirmDelete">Sil</v-btn>
         </v-card-actions>
       </v-card>
@@ -153,7 +160,7 @@ export default {
     return {
       search: "",
       selectedMusteri: null,
-      detailDialog: false, // 👈 yeni eklendi
+      detailDialog: false,
       dialog: false,
       deleteDialog: false,
       deleteTarget: null,
@@ -213,18 +220,23 @@ export default {
   methods: {
     selectMusteri(m) {
       this.selectedMusteri = m;
-      this.detailDialog = true; // 👈 dialog açılır
+      this.detailDialog = true;
     },
     openNew() {
       this.editMode = false;
       this.editTarget = null;
-      this.dialog = true; // Yeni müşteri ekleme dialogu açılır
+      this.dialog = true;
     },
     musteriKaydet(musteri) {
       if (this.editMode) {
         const index = this.musteriler.findIndex(m => m.id === musteri.id);
-        if (index !== -1) this.musteriler.splice(index, 1, musteri);
-        this.showSnackbar("Müşteri güncellendi", "info");
+        if (index !== -1) {
+          this.musteriler.splice(index, 1, musteri);
+          if (this.selectedMusteri && this.selectedMusteri.id === musteri.id) {
+            this.selectedMusteri = musteri;
+          }
+          this.showSnackbar("Müşteri başarıyla güncellendi", "info");
+        }
       } else {
         this.musteriler.push(musteri);
         this.showSnackbar("Müşteri başarıyla eklendi", "success");
@@ -234,11 +246,11 @@ export default {
     editMusteri(m) {
       this.editMode = true;
       this.editTarget = { ...m };
-      this.dialog = true; // Müşteri düzenleme dialogu açılır
+      this.dialog = true;
     },
     onDelete(musteri) {
       this.deleteDialog = true;
-      this.deleteTarget = musteri; // Silme dialogunu aç
+      this.deleteTarget = musteri;
     },
     confirmDelete() {
       this.musteriler = this.musteriler.filter(m => m.id !== this.deleteTarget.id);
@@ -248,7 +260,7 @@ export default {
       this.showSnackbar("Müşteri silindi", "error");
       this.deleteDialog = false;
       this.dialog = false;
-
+      this.detailDialog = false;
     },
     showSnackbar(text, color) {
       this.snackbar = { show: true, text, color };
@@ -268,5 +280,46 @@ export default {
 <style scoped>
 .v-card {
   background-color: #f5f6fa !important;
+}
+
+h2 {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.kpi-card-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.kpi-card-title {
+  font-size: 16px;
+}
+
+.search-field .v-input__control .v-input__slot {
+  font-size: 18px;
+}
+
+.data-table {
+  font-size: 18px;
+}
+
+.note-textarea .v-textarea__control .v-textarea__slot {
+  font-size: 16px;
+}
+
+.v-btn {
+  font-size: 16px;
+}
+
+.delete-title {
+  font-size: 18px;  /* Metni biraz daha küçülttüm */
+  white-space: nowrap;
+  text-align: center;
+  width: 100%;
+}
+
+.delete-text {
+  font-size: 16px;  /* Daha küçük font boyutu */
 }
 </style>

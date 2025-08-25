@@ -5,7 +5,7 @@
         <v-card elevation="10" class="pa-6 calc-card">
           <!-- Başlık -->
           <v-card-title class="calc-header">
-            <v-icon left color="amber darken-3">mdi-calculator-variant</v-icon>
+            <v-icon left color="#1E3A8A">mdi-calculator-variant</v-icon> <!-- Lacivert -->
             Kuyumculuk Hesap Makinesi
           </v-card-title>
           <v-divider class="mb-4"></v-divider>
@@ -121,7 +121,7 @@ export default {
 .calc-header {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #black; /* Lacivert renk */
+  color: black;
 }
 
 /* Input kartları */

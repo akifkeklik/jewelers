@@ -46,21 +46,21 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* ekranın ortasında */
+  height: 100vh;
   width: 100%;
 }
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 sütun */
-  gap: 20px; /* kartlar arası boşluk */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px; /* Increased gap for more spacing */
   width: 100%;
-  max-width: 1000px; /* tüm düzen ortalanır */
+  max-width: 1200px; /* Increased max-width for larger grid */
 }
 
 .dashboard-card {
   border-radius: 16px;
-  height: 160px;
+  height: 220px; /* Increased height of the cards */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,6 +69,7 @@ export default {
   color: #1a1a1a;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
   transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+  padding: 15px; /* Added padding to balance content */
 }
 
 .dashboard-card:hover {
@@ -80,22 +81,25 @@ export default {
 .card-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  height: 100%; /* Ensure content fills the full height of the card */
+  text-align: center; /* Ensures that text is aligned to center */
 }
 
 .dashboard-icon {
-  font-size: 2rem;
-  margin-bottom: 6px;
+  font-size: 3rem; /* Increased icon size */
+  margin-bottom: 10px; /* Increased space between icon and text */
 }
 
 .dashboard-title {
-  font-size: 1.2rem;
+  font-size: 1.5rem; /* Increased title font size */
   font-weight: 600;
+  margin-bottom: 5px; /* Added space below title */
 }
 
 .dashboard-subtitle {
-  font-size: 0.85rem;
+  font-size: 1rem; /* Increased subtitle font size */
   color: #333;
 }
 </style>

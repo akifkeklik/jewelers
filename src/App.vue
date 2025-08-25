@@ -94,46 +94,46 @@ export default {
 /* === APP BAR MODERN === */
 .app-bar {
   background: linear-gradient(90deg, #141e30, #243b55) !important;
-  color: #FFD700 !important;
+  color: #C0C0C0 !important; /* Pastel Gri */
   font-family: 'Cinzel', serif; /* Başlık fontu - Cinzel */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 .diamond-icon {
-  color: #FFD700 !important;
+  color: #C0C0C0 !important; /* Pastel Gri */
   font-size: 28px;
 }
 .menu-btn {
-  color: #FFD700 !important;
+  color: #C0C0C0 !important; /* Pastel Gri */
 }
 .dark-toggle {
-  color: #FFD700 !important;
+  color: #C0C0C0 !important;
   transition: 0.3s ease;
 }
 .dark-toggle:hover {
   transform: rotate(15deg);
-  color: #fff176 !important;
+  color: #B0B0B0 !important; /* Gri */
 }
 
 /* === SIDEBAR MODERN === */
 .modern-sidebar {
   background: linear-gradient(90deg, #141e30, #243b55) !important;
-  color: #FFD700 !important;
+  color: #C0C0C0 !important; /* Pastel Gri */
   box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1);
 }
 .modern-sidebar .v-list-item,
 .modern-sidebar .v-icon {
-  color: #FFD700 !important;
+  color: #C0C0C0 !important; /* Pastel Gri */
 }
 .sidebar-link {
   transition: 0.3s ease;
   border-radius: 8px;
-  color: #FFD700 !important;
+  color: #C0C0C0 !important; /* Pastel Gri */
   font-family: 'Cinzel', serif; /* Sidebar için Cinzel fontu */
   font-weight: 600;
 }
 .sidebar-link:hover {
-  background: linear-gradient(90deg, rgba(255,215,0,0.2), transparent);
-  box-shadow: inset 2px 0 0 #FFD700;
+  background: linear-gradient(90deg, rgba(192,192,192,0.2), transparent);
+  box-shadow: inset 2px 0 0 #C0C0C0;
 }
 
 /* === SAYFA BACKGROUND === */
@@ -156,5 +156,4 @@ export default {
   flex-direction: column;
   background: #fdfdfd !important;
 }
-
 </style>
