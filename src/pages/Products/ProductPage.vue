@@ -87,7 +87,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text color="grey" @click="kameraDialog=false">Kapat</v-btn>
+          <!-- Kapat Butonunu Kırmızı Yapalım -->
+          <v-btn color="error" @click="kameraDialog=false">Kapat</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

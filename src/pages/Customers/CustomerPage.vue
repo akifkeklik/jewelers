@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <h2 class="mb-4">Müşteriler</h2>
 
     <!-- KPI Kartları -->
@@ -247,6 +247,8 @@ export default {
       }
       this.showSnackbar("Müşteri silindi", "error");
       this.deleteDialog = false;
+      this.dialog = false;
+
     },
     showSnackbar(text, color) {
       this.snackbar = { show: true, text, color };
