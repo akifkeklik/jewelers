@@ -38,6 +38,7 @@
     ></v-text-field>
 
     <v-select
+        :menu-props="{offsetY:true}"
         v-model="musteri.etiket"
         label="Etiket"
         :items="['VIP','Aktif','Yeni']"

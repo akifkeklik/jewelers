@@ -39,9 +39,7 @@
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <!-- İptal Butonu (Sarı) -->
           <v-btn color="warning" text @click="deleteDialog=false">İptal</v-btn>
-          <!-- Sil Butonu (Kırmızı) -->
           <v-btn color="red" text @click="confirmDelete">Sil</v-btn>
         </v-card-actions>
       </v-card>
@@ -58,7 +56,7 @@
         <v-card-text>
           <v-form ref="duzenleForm" v-model="duzenleFormValid">
             <v-text-field v-model="seciliUrun.ad" label="Ürün Adı" outlined dense />
-            <v-select v-model="seciliUrun.kategori" :items="['Altın','Gümüş','Pırlanta','Gıda']" label="Kategori" outlined dense/>
+            <v-select :menu-props="{offsetY:true}" v-model="seciliUrun.kategori" :items="['Altın','Gümüş','Pırlanta','Gıda']" label="Kategori" outlined dense/>
             <v-text-field v-model="seciliUrun.gram" type="number" label="Gram" outlined dense/>
             <v-text-field v-model="seciliUrun.fiyat" type="number" label="Fiyat (₺)" outlined dense/>
             <v-text-field v-model="seciliUrun.barkod" label="Barkod" outlined dense/>
@@ -99,11 +97,12 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-          <StreamBarcodeReader @decode="onDecode" @error="onDecodeError" />
+          <!-- Video Akışı -->
+          <video ref="video" width="100%" height="auto" autoplay></video>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" @click="kameraDialog=false">Kapat</v-btn>
+          <v-btn color="error" @click="kameraDialog=false; stopCamera()">Kapat</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -117,12 +116,11 @@
 </template>
 
 <script>
-import { StreamBarcodeReader } from 'vue-barcode-reader';  // Burada import ediyorsunuz
 import ProductForm from "./ProductForm.vue";
 import ProductList from "./ProductList.vue";
 
 export default {
-  components: { ProductForm, ProductList, StreamBarcodeReader },
+  components: { ProductForm, ProductList },
   data() {
     return {
       search: "",
@@ -137,11 +135,12 @@ export default {
       ],
       duzenleDialog: false,
       yeniDialog: false,
-      deleteDialog: false, // Yeni silme onayı dialogu state
+      deleteDialog: false,
       seciliUrun: {},
       duzenleFormValid: false,
-      urunSilId: null, // Silinecek ürünün ID'si
-      snackbar: false, // Silme başarılı olduğunda gösterilecek snackbar
+      urunSilId: null,
+      snackbar: false,
+      videoStream: null,  // Video akışını tutacak değişken
     };
   },
   methods: {
@@ -150,13 +149,13 @@ export default {
       this.yeniDialog = false;
     },
     urunSil(id) {
-      this.urunSilId = id;  // Silinecek ürün ID'sini kaydediyoruz
-      this.deleteDialog = true; // Yeni silme onay dialogunu gösteriyoruz
+      this.urunSilId = id;
+      this.deleteDialog = true;
     },
     confirmDelete() {
       this.urunler = this.urunler.filter((u) => u.id !== this.urunSilId);
-      this.deleteDialog = false; // Dialogu kapat
-      this.snackbar = true; // Silme başarılı olduğunda snackbar'ı göster
+      this.deleteDialog = false;
+      this.snackbar = true;
     },
     duzenlemeBaslat(urun) {
       this.seciliUrun = { ...urun };
@@ -171,23 +170,40 @@ export default {
         this.duzenleDialog = false;
       }
     },
-    onDecode(result) {
-      this.kameraDialog = false;
-      const mevcutUrun = this.urunler.find(u => u.barkod === result);
-      if (mevcutUrun) {
-        this.search = result;
+
+    // Kamera akışını başlat
+    startCamera() {
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+              this.$refs.video.srcObject = stream;
+              this.videoStream = stream;
+            })
+            .catch((error) => {
+              console.error('Kamera hatası:', error);
+            });
       } else {
-        this.search = "";
-        this.yeniDialog = true;
-        this.$nextTick(() => {
-          this.$refs.productForm.urun.barkod = result;
-        });
+        alert('Tarayıcınız kamera akışını desteklemiyor!');
       }
     },
-    onDecodeError(error) {
-      console.error("Barkod okuma hatası:", error);
-    }
-  }
+
+    // Kamera akışını durdur
+    stopCamera() {
+      if (this.videoStream) {
+        let tracks = this.videoStream.getTracks();
+        tracks.forEach(track => track.stop());
+      }
+    },
+  },
+  watch: {
+    kameraDialog(newValue) {
+      if (newValue) {
+        this.startCamera();
+      } else {
+        this.stopCamera();
+      }
+    },
+  },
 };
 </script>
 
@@ -233,20 +249,8 @@ export default {
   padding: 15px;
 }
 
-/* Silme Onay Dialogunun Sağ Alt Köşeye Hizalanması */
-.v-dialog {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-.delete-text {
-  font-size: 18px;
-  font-weight: 500;
-  color: #222;
-}
-
-.delete-title {
-  font-size: 20px;
+video {
+  width: 100%;
+  height: auto;
 }
 </style>

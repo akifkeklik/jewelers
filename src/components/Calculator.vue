@@ -31,6 +31,7 @@
                 <v-select
                     v-model="selectedUnit"
                     :items="units"
+                    :menu-props="{offsetY:true}"
                     item-text="text"
                     item-value="value"
                     label="Birim Seç"

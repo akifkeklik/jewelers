@@ -25,16 +25,6 @@
         class="modern-sidebar"
     >
       <v-list dense nav>
-        <!-- Menü Aç/Kapa Butonu -->
-        <v-list-item @click="mini = !mini" class="menu-toggle">
-          <v-list-item-icon>
-            <v-icon>mdi-menu</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title v-if="!mini">Menü</v-list-item-title>
-        </v-list-item>
-
-        <v-divider></v-divider>
-
         <!-- Menü Linkleri -->
         <v-list-item
             v-for="item in items"

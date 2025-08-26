@@ -16,6 +16,7 @@
       <v-row>
         <v-col cols="12" md="3">
           <v-text-field
+              dense
               v-model="searchQuery"
               label="Satış Ara"
               prepend-icon="mdi-magnify"
@@ -27,6 +28,7 @@
           <v-menu v-model="dateRangeMenu" :close-on-content-click="false" transition="scale-transition">
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
+                  dense
                   v-bind="attrs"
                   v-on="on"
                   label="Tarih Aralığı"
@@ -42,6 +44,8 @@
 
         <v-col cols="12" md="3">
           <v-select
+              dense
+              :menu-props="{offsetY:true}"
               v-model="selectedCustomer"
               :items="uniqueCustomers"
               label="Müşteri Seç"

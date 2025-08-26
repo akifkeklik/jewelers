@@ -19,10 +19,13 @@
         <v-card class="pa-3">
           <v-text-field
               v-model="search"
-              label="Müşteri Ara"
-              prepend-icon="mdi-magnify"
-              outlined dense
-              class="search-field"
+              placeholder="Müşteri Ara (Ad / Soyad / Telefon / E-posta)"
+              prepend-inner-icon="mdi-magnify"
+              outlined
+              dense
+              hide-details
+              clearable
+              class="search-bar mb-5"
           ></v-text-field>
 
           <v-data-table
@@ -44,7 +47,8 @@
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                        icon small
+                        icon
+                        small
                         color="primary"
                         class="action-btn"
                         @click.stop="selectMusteri(item)"
@@ -60,7 +64,8 @@
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                        icon small
+                        icon
+                        small
                         color="error"
                         class="action-btn"
                         @click.stop="onDelete(item)"
@@ -195,7 +200,7 @@ export default {
       editMode: false,
       editTarget: null,
       headers: [
-        { text: "Ad", value: "ad" },
+        { text: "Ad", value: "ad"},
         { text: "Soyad", value: "soyad" },
         { text: "Telefon", value: "telefon" },
         { text: "E-posta", value: "email" },
@@ -323,8 +328,16 @@ h2 {
   font-size: 16px;
 }
 
-.search-field .v-input__control .v-input__slot {
-  font-size: 18px;
+.search-bar {
+  background-color: #f1f3f4 !important;
+  border-radius: 12px !important;
+  font-size: 18px !important;
+  padding: 10px !important;
+}
+
+.search-bar input {
+  font-size: 18px !important;
+  color: #222;
 }
 
 .data-table {
@@ -337,6 +350,7 @@ h2 {
 
 .v-btn {
   font-size: 16px;
+  border-radius: 12px;
 }
 
 .delete-title {
