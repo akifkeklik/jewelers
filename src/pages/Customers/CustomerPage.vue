@@ -40,12 +40,39 @@
             </template>
 
             <template v-slot:[`item.islemler`]="{ item }">
-              <v-btn icon small color="primary" @click.stop="selectMusteri(item)">
-                <v-icon>mdi-eye</v-icon>
-              </v-btn>
-              <v-btn icon small color="error" @click.stop="onDelete(item)">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
+              <div class="action-buttons">
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        icon small
+                        color="primary"
+                        class="action-btn"
+                        @click.stop="selectMusteri(item)"
+                        v-bind="attrs"
+                        v-on="on"
+                    >
+                      <v-icon>mdi-eye</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Detay Görüntüle</span>
+                </v-tooltip>
+
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        icon small
+                        color="error"
+                        class="action-btn"
+                        @click.stop="onDelete(item)"
+                        v-bind="attrs"
+                        v-on="on"
+                    >
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Müşteriyi Sil</span>
+                </v-tooltip>
+              </div>
             </template>
           </v-data-table>
 
@@ -173,7 +200,7 @@ export default {
         { text: "Telefon", value: "telefon" },
         { text: "E-posta", value: "email" },
         { text: "Etiket", value: "etiket" },
-        { text: "İşlemler", value: "islemler", sortable: false },
+        { text: "İşlemler", value: "islemler", sortable: false, align: 'center', width: '120px' },
       ],
       musteriler: [
         {
@@ -313,13 +340,37 @@ h2 {
 }
 
 .delete-title {
-  font-size: 18px;  /* Metni biraz daha küçülttüm */
+  font-size: 18px;
   white-space: nowrap;
   text-align: center;
   width: 100%;
 }
 
 .delete-text {
-  font-size: 16px;  /* Daha küçük font boyutu */
+  font-size: 16px;
+}
+
+/* İşlem butonları için özel stiller */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-btn {
+  transition: all 0.3s ease;
+  transform: scale(1);
+}
+
+.action-btn:hover {
+  transform: scale(1.2);
+}
+
+.action-btn:first-child:hover {
+  background-color: rgba(0, 123, 255, 0.1) !important;
+}
+
+.action-btn:last-child:hover {
+  background-color: rgba(220, 53, 69, 0.1) !important;
 }
 </style>

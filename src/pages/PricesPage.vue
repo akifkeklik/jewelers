@@ -10,16 +10,13 @@
               :items="altinFiyatlari"
               hide-default-footer
               item-class="price-table-item"
+              class="price-data-table"
           >
             <template v-slot:item.alis="{ item }">
-              <div class="price-box" style="text-align: right; width: 150px;">
-                <span :class="getClass(item.alis)">{{ cleanValue(item.alis) }}</span>
-              </div>
+              <div :class="['price-box', getClass(item.alis)]">{{ cleanValue(item.alis) }}</div>
             </template>
             <template v-slot:item.satis="{ item }">
-              <div class="price-box" style="text-align: right; width: 150px;">
-                <span :class="getClass(item.satis)">{{ cleanValue(item.satis) }}</span>
-              </div>
+              <div :class="['price-box', getClass(item.satis)]">{{ cleanValue(item.satis) }}</div>
             </template>
           </v-data-table>
         </v-card>
@@ -34,16 +31,13 @@
               :items="dovizFiyatlari"
               hide-default-footer
               item-class="price-table-item"
+              class="price-data-table"
           >
             <template v-slot:item.alis="{ item }">
-              <div class="price-box" style="text-align: right; width: 150px;">
-                <span :class="getClass(item.alis)">{{ cleanValue(item.alis) }}</span>
-              </div>
+              <div :class="['price-box', getClass(item.alis)]">{{ cleanValue(item.alis) }}</div>
             </template>
             <template v-slot:item.satis="{ item }">
-              <div class="price-box" style="text-align: right; width: 150px;">
-                <span :class="getClass(item.satis)">{{ cleanValue(item.satis) }}</span>
-              </div>
+              <div :class="['price-box', getClass(item.satis)]">{{ cleanValue(item.satis) }}</div>
             </template>
           </v-data-table>
         </v-card>
@@ -58,16 +52,13 @@
               :items="yeniSarrafiye"
               hide-default-footer
               item-class="price-table-item"
+              class="price-data-table"
           >
             <template v-slot:item.alis="{ item }">
-              <div class="price-box" style="text-align: right; width: 150px;">
-                {{ item.alis }}
-              </div>
+              <div class="price-box">{{ item.alis }}</div>
             </template>
             <template v-slot:item.satis="{ item }">
-              <div class="price-box" style="text-align: right; width: 150px;">
-                {{ item.satis }}
-              </div>
+              <div class="price-box">{{ item.satis }}</div>
             </template>
           </v-data-table>
         </v-card>
@@ -82,16 +73,13 @@
               :items="eskiSarrafiye"
               hide-default-footer
               item-class="price-table-item"
+              class="price-data-table"
           >
             <template v-slot:item.alis="{ item }">
-              <div class="price-box" style="text-align: right; width: 150px;">
-                {{ item.alis }}
-              </div>
+              <div class="price-box">{{ item.alis }}</div>
             </template>
             <template v-slot:item.satis="{ item }">
-              <div class="price-box" style="text-align: right; width: 150px;">
-                {{ item.satis }}
-              </div>
+              <div class="price-box">{{ item.satis }}</div>
             </template>
           </v-data-table>
         </v-card>
@@ -105,9 +93,9 @@ export default {
   data() {
     return {
       headers: [
-        { text: "Tür", value: "tur" },
-        { text: "Alış", value: "alis" },
-        { text: "Satış", value: "satis" },
+        { text: "Tür", value: "tur", align: "left" },
+        { text: "Alış", value: "alis", align: "center", width: "150px" },
+        { text: "Satış", value: "satis", align: "center", width: "150px" },
       ],
       altinFiyatlari: [
         { tur: "Altın/ONS", alis: "3.337,59", satis: "3.337,96" },
@@ -151,16 +139,28 @@ export default {
 </script>
 
 <style scoped>
-/* Sağ hizalama ve kolon genişliği */
+/* Tablo için genel stiller */
+.price-data-table ::v-deep(th),
+.price-data-table ::v-deep(td) {
+  padding: 0 16px !important;
+}
+
+/* Alış ve Satış sütunları için orta hizalama */
+.price-data-table ::v-deep(th:nth-child(2)),
+.price-data-table ::v-deep(th:nth-child(3)),
+.price-data-table ::v-deep(td:nth-child(2)),
+.price-data-table ::v-deep(td:nth-child(3)) {
+  text-align: center !important;
+}
+
 .price-box {
   font-weight: bold;
   font-size: 1.1rem;
-  text-align: right;
+  text-align: center;
   padding: 6px;
   white-space: nowrap;
 }
 
-/* Renkler */
 .text-green {
   color: #2e7d32 !important;
 }
@@ -182,5 +182,4 @@ export default {
 .price-table-item {
   color: #333 !important;
 }
-
 </style>

@@ -52,7 +52,7 @@
     <!-- İçerik -->
     <v-main>
       <v-container fluid class="pa-6 fill-height" :class="[darkMode ? 'dark-bg' : 'light-bg']">
-        <router-view />
+        <router-view  />
       </v-container>
     </v-main>
   </v-app>
