@@ -97,37 +97,30 @@ export default {
         { text: "Alış", value: "alis", align: "center", width: "150px" },
         { text: "Satış", value: "satis", align: "center", width: "150px" },
       ],
-      altinFiyatlari: [
-        { tur: "Altın/ONS", alis: "3.337,59", satis: "3.337,96" },
-        { tur: "Gümüş/ONS", alis: "38,0440", satis: "38,0500" },
-        { tur: "Altın/TL", alis: "4.405,29", satis: "4.113,52" },
-        { tur: "Altın/KG/USD", alis: "107.270,00", satis: "107.000,00" },
-        { tur: "Altın/KG/EUR", alis: "91.824,00", satis: "92.225,00" },
-        { tur: "Gümüş/TL", alis: "49,9313 ▲", satis: "50,5687 ▲" },
-      ],
-      dovizFiyatlari: [
-        { tur: "USD/TL", alis: "40,8500", satis: "40,9000" },
-        { tur: "EUR/TL", alis: "47,5700", satis: "47,7500" },
-        { tur: "GBP/TL", alis: "54,8491 ▼", satis: "55,1604 ▼" },
-        { tur: "AUD/TL", alis: "25,9986 ▲", satis: "26,4013 ▲" },
-        { tur: "CHF/TL", alis: "50,1926", satis: "50,8714" },
-        { tur: "CAD/TL", alis: "29,2921 ▲", satis: "29,6661" },
-      ],
-      yeniSarrafiye: [
-        { tur: "Yeni Çeyrek", alis: "7.181", satis: "7.216" },
-        { tur: "Yeni Yarım", alis: "14.362", satis: "14.432" },
-        { tur: "Yeni Tam", alis: "28.591", satis: "28.754" },
-        { tur: "Yeni Ata", alis: "28.190", satis: "28.632" },
-      ],
-      eskiSarrafiye: [
-        { tur: "Eski Çeyrek", alis: "7.049", satis: "7.084" },
-        { tur: "Eski Yarım", alis: "14.097", satis: "14.167" },
-        { tur: "Eski Tam", alis: "28.194", satis: "28.330" },
-        { tur: "Eski Ata", alis: "29.180", satis: "29.632" },
-      ],
+      altinFiyatlari: [],
+      dovizFiyatlari: [],
+      yeniSarrafiye: [],
+      eskiSarrafiye: [],
     };
   },
+  mounted() {
+    this.fetchPrices();
+    setInterval(this.fetchPrices, 5000); // 5 saniyede bir güncelle
+  },
   methods: {
+    async fetchPrices() {
+      try {
+        // cache önleme için timestamp ekledik
+        const response = await fetch("/prices.json?ts=" + new Date().getTime());
+        const data = await response.json();
+        this.altinFiyatlari = data.altinFiyatlari;
+        this.dovizFiyatlari = data.dovizFiyatlari;
+        this.yeniSarrafiye = data.yeniSarrafiye;
+        this.eskiSarrafiye = data.eskiSarrafiye;
+      } catch (error) {
+        console.error("Veri alınamadı:", error);
+      }
+    },
     getClass(value) {
       return value.includes("▲") ? "text-green" : value.includes("▼") ? "text-red" : "";
     },
