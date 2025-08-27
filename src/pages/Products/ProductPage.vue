@@ -29,7 +29,32 @@
           @urunSil="urunSil"
           @urunDuzenle="duzenlemeBaslat"
       />
+
+      <!-- Yeni Ürün Ekle Butonu -->
+      <v-btn color="primary" class="mt-5" @click="yeniUrunDialog = true" block>
+        <v-icon left>mdi-plus</v-icon>
+        Yeni Ürün Ekle
+      </v-btn>
+
     </v-card>
+
+    <!-- Ürün Ekleme Dialogu -->
+    <v-dialog v-model="yeniUrunDialog" max-width="700px" transition="dialog-top-transition">
+      <v-card>
+        <v-card-title class="headline dialog-header">
+          <v-icon left color="primary">mdi-plus</v-icon>
+          Yeni Ürün Ekle
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text>
+          <ProductForm ref="productForm" @urunEklendi="urunEkleDialog" />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text color="grey" @click="yeniUrunDialog = false">Kapat</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <!-- Silme Onayı -->
     <v-dialog v-model="deleteDialog" max-width="500px">
@@ -66,24 +91,6 @@
           <v-spacer></v-spacer>
           <v-btn color="error" @click="duzenleDialog=false">İptal</v-btn>
           <v-btn color="primary" :disabled="!duzenleFormValid" @click="duzenlemeKaydet">Kaydet</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <!-- Yeni Ürün Ekleme Dialogu -->
-    <v-dialog v-model="yeniDialog" max-width="700px" transition="dialog-top-transition">
-      <v-card>
-        <v-card-title class="headline dialog-header">
-          <v-icon left color="primary">mdi-plus</v-icon>
-          Yeni Ürün Ekle
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text>
-          <ProductForm ref="productForm" @urunEklendi="urunEkleDialog" />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text color="grey" @click="yeniDialog=false">Kapat</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -136,6 +143,7 @@ export default {
       ],
       duzenleDialog: false,
       yeniDialog: false,
+      yeniUrunDialog: false,  // Yeni ürün ekleme dialogu
       deleteDialog: false,
       seciliUrun: {},
       duzenleFormValid: false,
@@ -147,7 +155,7 @@ export default {
   methods: {
     urunEkleDialog(yeni) {
       this.urunler.push(yeni);
-      this.yeniDialog = false;
+      this.yeniUrunDialog = false;
     },
     urunSil(id) {
       this.urunSilId = id;
@@ -207,51 +215,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.search-bar {
-  background-color: #f1f3f4 !important;
-  border-radius: 10px !important;
-  font-size: 18px !important;
-  padding: 10px !important;
-}
-
-.search-bar input {
-  font-size: 18px !important;
-  color: #222;
-}
-
-.v-btn {
-  font-size: 18px;
-  padding: 12px 20px;
-}
-
-.v-card {
-  background-color: #f5f6fa !important;
-}
-
-.dialog-header {
-  font-size: 22px;
-}
-
-.dialog-header v-icon {
-  font-size: 24px;
-}
-
-.v-form .v-input {
-  margin-bottom: 15px;
-}
-
-.v-btn {
-  font-size: 18px;
-}
-
-.v-dialog .v-card {
-  padding: 15px;
-}
-
-video {
-  width: 100%;
-  height: auto;
-}
-</style>
