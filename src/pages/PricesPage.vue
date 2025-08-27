@@ -110,7 +110,6 @@ export default {
   methods: {
     async fetchPrices() {
       try {
-        // cache önleme için timestamp ekledik
         const response = await fetch("/prices.json?ts=" + new Date().getTime());
         const data = await response.json();
         this.altinFiyatlari = data.altinFiyatlari;
@@ -135,52 +134,45 @@ export default {
 /* Tablo için genel stiller */
 .price-data-table ::v-deep(th),
 .price-data-table ::v-deep(td) {
-  padding: 0 16px !important;
+  padding: 6px 10px !important; /* Padding'i daha da küçültüyoruz */
 }
 
 /* Başlık stilleri */
 .price-data-table ::v-deep(.header-tur) {
   font-weight: 600 !important;
-  font-size: 1rem !important;
+  font-size: 0.8rem !important; /* Başlık boyutunu küçültüyoruz */
   color: #141e30 !important;
   letter-spacing: 0.5px;
 }
 
 .price-data-table ::v-deep(.header-price) {
   font-weight: 700 !important;
-  font-size: 1.1rem !important;
+  font-size: 0.8rem !important; /* Başlık boyutunu küçültüyoruz */
   color: #141e30 !important;
-  text-align: center !important;
-}
-
-/* Alış ve Satış sütunları için orta hizalama */
-.price-data-table ::v-deep(th:nth-child(2)),
-.price-data-table ::v-deep(th:nth-child(3)),
-.price-data-table ::v-deep(td:nth-child(2)),
-.price-data-table ::v-deep(td:nth-child(3)) {
   text-align: center !important;
 }
 
 /* Tür sütunu stilleri */
 .price-data-table ::v-deep(td:first-child) {
   font-weight: 600 !important;
-  font-size: 1rem !important;
+  font-size: 0.8rem !important; /* Satır metni boyutunu küçültüyoruz */
   color: #141e30 !important;
-  padding: 12px 16px !important;
+  padding: 6px 10px !important;
 }
 
+/* Fiyat kutusu */
 .price-box {
   font-weight: 700 !important;
-  font-size: 1.2rem !important;
+  font-size: 0.9rem !important; /* Fiyat kutusunun font boyutunu küçültüyoruz */
   text-align: center;
-  padding: 10px 12px;
+  padding: 4px 8px;
   white-space: nowrap;
   color: #141e30 !important;
   text-shadow: 0 0 8px rgba(20, 30, 48, 0.3);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.7);
   transition: all 0.3s ease;
-  margin: 4px 0;
+  margin: 2px 0;
   border: 1px solid rgba(20, 30, 48, 0.1);
 }
 
@@ -191,6 +183,21 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Başlık stilleri */
+.card-title {
+  font-size: 1rem !important; /* Başlık boyutunu küçültüyoruz */
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 6px 12px;
+  color: #141e30 !important;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(20, 30, 48, 0.1), transparent);
+  text-shadow: 0 0 6px rgba(20, 30, 48, 0.2);
+  margin-bottom: 8px; /* Margin'i küçültüyoruz */
+}
+
+/* Diğer stil düzenlemeleri */
 .text-green {
   color: #2e7d32 !important;
   text-shadow: 0 0 8px rgba(46, 125, 50, 0.3) !important;
@@ -199,19 +206,6 @@ export default {
 .text-red {
   color: #c62828 !important;
   text-shadow: 0 0 8px rgba(198, 40, 40, 0.3) !important;
-}
-
-.card-title {
-  font-size: 1.2rem !important;
-  font-weight: 700 !important;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 12px 16px;
-  color: #141e30 !important;
-  border-radius: 8px;
-  background: linear-gradient(90deg, rgba(20, 30, 48, 0.1), transparent);
-  text-shadow: 0 0 6px rgba(20, 30, 48, 0.2);
-  margin-bottom: 16px;
 }
 
 .price-table-item {

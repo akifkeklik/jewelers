@@ -1,30 +1,24 @@
 {
   "altinFiyatlari": [
-    { "tur": "Altın/ONS", "alis": "138 812,00", "satis": "138 812,00" },
-    { "tur": "Altın/GRAM", "alis": "4 458,95", "satis": "4 458,95" },
+    { "tur": "Altın/ONS", "alis": "3.337,59", "satis": "3.337,96" },
     { "tur": "Gümüş/ONS", "alis": "38,0440", "satis": "38,0500" },
-    { "tur": "Altın/TL", "alis": "4 458,95", "satis": "4 458,95" },
-    { "tur": "Altın/KG/TL", "alis": "4 458 950,00", "satis": "4 458 950,00" },
-    { "tur": "Gümüş/TL", "alis": "50,00 ▲", "satis": "50,10 ▲" }
+    { "tur": "Altın/TL", "alis": "4.405,29", "satis": "4.113,52" },
+    { "tur": "Gümüş/TL", "alis": "49,9313 ▲", "satis": "50,5687 ▲" }
   ],
   "dovizFiyatlari": [
-    { "tur": "USD/TL", "alis": "41,03", "satis": "41,05" },
-    { "tur": "EUR/TL", "alis": "47,60", "satis": "47,80" },
-    { "tur": "GBP/TL", "alis": "55,00", "satis": "55,20" },
-    { "tur": "AUD/TL", "alis": "26,05", "satis": "26,30" },
-    { "tur": "CHF/TL", "alis": "50,20", "satis": "50,40" },
-    { "tur": "CAD/TL", "alis": "29,60", "satis": "29,85" }
+    { "tur": "USD/TL", "alis": "41,5000", "satis": "40,9000" },
+    { "tur": "EUR/TL", "alis": "47,5700", "satis": "47,7500" },
+    { "tur": "GBP/TL", "alis": "54,8491 ▼", "satis": "55,1604 ▼" },
+    { "tur": "AUD/TL", "alis": "25,9986 ▲", "satis": "26,4013 ▲" }
   ],
   "yeniSarrafiye": [
-    { "tur": "Yeni Çeyrek", "alis": "7 050", "satis": "7 100" },
-    { "tur": "Yeni Yarım", "alis": "14 100", "satis": "14 200" },
-    { "tur": "Yeni Tam", "alis": "28 200", "satis": "28 400" },
-    { "tur": "Yeni Ata", "alis": "28 300", "satis": "28 500" }
+    { "tur": "Yeni Çeyrek", "alis": "7.181", "satis": "7.216" },
+    { "tur": "Yeni Yarım", "alis": "14.362", "satis": "14.432" },
+    { "tur": "Yeni Tam", "alis": "28.591", "satis": "28.754" }
   ],
   "eskiSarrafiye": [
-    { "tur": "Eski Çeyrek", "alis": "7 000", "satis": "7 050" },
-    { "tur": "Eski Yarım", "alis": "14 000", "satis": "14 100" },
-    { "tur": "Eski Tam", "alis": "28 000", "satis": "28 200" },
-    { "tur": "Eski Ata", "alis": "29 000", "satis": "29 300" }
+    { "tur": "Eski Çeyrek", "alis": "7.049", "satis": "7.084" },
+    { "tur": "Eski Yarım", "alis": "14.097", "satis": "14.167" },
+    { "tur": "Eski Tam", "alis": "28.194", "satis": "28.330" }
   ]
 }

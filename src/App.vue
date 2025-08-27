@@ -167,25 +167,28 @@ export default {
 /* === DEĞERLER BUTONU === */
 .floating-values-btn {
   position: fixed !important;
-  bottom: 24px !important;
-  right: 24px !important;
+  bottom: 12px !important; /* Hafifçe yukarı kaydırdım */
+  right: 12px !important;  /* Hafifçe sola kaydırdım */
   z-index: 999;
-  background: rgba(20, 30, 48, 0.85) !important; /* Yarı şeffaf lacivert */
-  backdrop-filter: blur(4px);
+  background: rgba(20, 30, 48, 0.4) !important; /* Yarı şeffaf, daha ince bir lacivert */
+  backdrop-filter: blur(6px);  /* Daha belirgin bulanıklık */
   font-family: 'Cinzel', serif !important;
   font-weight: bold !important;
   letter-spacing: 1px !important;
   text-transform: uppercase !important;
-  border-radius: 16px !important;
-  width: 120px !important;
-  height: 60px !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+  border-radius: 12px !important; /* Yuvarlak köşeler */
+  width: 80px !important; /* Buton boyutunu küçültüyoruz */
+  height: 40px !important; /* Buton boyutunu küçültüyoruz */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important; /* Daha hafif gölge */
   transition: all 0.3s ease !important;
+  opacity: 0.8; /* Şeffaflık, daha az görünür */
+  font-size: 12px !important; /* Yazıyı küçülttüm */
 }
 
 .floating-values-btn:hover {
-  background: rgba(36, 59, 85, 0.95) !important; /* Hoverda daha az şeffaf */
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
+  background: rgba(36, 59, 85, 0.85) !important; /* Hoverda daha az şeffaf, daha koyu */
+  transform: translateY(-5px); /* Hoverda daha belirgin yükselme */
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important; /* Daha belirgin gölge */
+  opacity: 1; /* Hoverda opaklık tam olacak */
 }
 </style>
