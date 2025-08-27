@@ -18,6 +18,7 @@
                     v-model.number="amount"
                     label="Miktar"
                     type="number"
+                    min="0"
                     dense
                     outlined
                     hide-details
@@ -106,6 +107,11 @@ export default {
       return `${this.amount} ${unit.text} ≈ ${totalGrams.toFixed(2)} gr | ${totalPrice.toLocaleString()} ₺`;
     },
   },
+  watch: {
+    amount(val) {
+      if (val < 0) this.amount = 0;
+    }
+  }
 };
 </script>
 
