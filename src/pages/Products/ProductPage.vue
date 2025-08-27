@@ -126,12 +126,13 @@ export default {
       search: "",
       kameraDialog: false,
       urunler: [
-        { id: 1, ad: "Gram Altın", kategori: "Altın", gram: "1", fiyat: 2500, barkod: "123456" },
-        { id: 2, ad: "Çeyrek Altın", kategori: "Altın", gram: "1.75", fiyat: 4200, barkod: "789101" },
-        { id: 3, ad: "Gümüş Çeyrek", kategori: "Gümüş", gram: "0.25", fiyat: 500, barkod: "111213" },
-        { id: 4, ad: "Coca-Cola 330ml", kategori: "Gıda", gram: "0.33", fiyat: 25, barkod: "5449000000996" },
-        { id: 5, ad: "Ülker Çikolata", kategori: "Gıda", gram: "0.07", fiyat: 15, barkod: "8690504010019" },
-        { id: 6, ad: "Nestlé Su 0.5L", kategori: "Gıda", gram: "0.5", fiyat: 8, barkod: "7613033560123" }
+        { id: 1, ad: "Gram Altın", kategori: "Altın", gram: 1, fiyat: 2500, barkod: "100001" },
+        { id: 2, ad: "Çeyrek Altın", kategori: "Altın", gram: 1.75, fiyat: 4200, barkod: "100002" },
+        { id: 3, ad: "Yarım Altın", kategori: "Altın", gram: 3.5, fiyat: 8400, barkod: "100003" },
+        { id: 4, ad: "Tam Altın (Cumhuriyet)", kategori: "Altın", gram: 7, fiyat: 16800, barkod: "100004" },
+        { id: 5, ad: "Gümüş Gram", kategori: "Gümüş", gram: 1, fiyat: 35, barkod: "100005" },
+        { id: 6, ad: "Gümüş Bileklik", kategori: "Gümüş", gram: 10, fiyat: 400, barkod: "100006" },
+        { id: 7, ad: "22 Ayar Bilezik", kategori: "Altın", gram: 15, fiyat: 37500, barkod: "100007" }
       ],
       duzenleDialog: false,
       yeniDialog: false,
