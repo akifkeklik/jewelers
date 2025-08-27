@@ -45,6 +45,17 @@
         <router-view  />
       </v-container>
     </v-main>
+
+    <!-- Değerler Butonu (Tüm Sayfalarda Görünür) -->
+    <v-btn
+        class="floating-values-btn"
+        @click="goToPrices"
+        fab
+        large
+        dark
+    >
+      DEĞERLER
+    </v-btn>
   </v-app>
 </template>
 
@@ -72,6 +83,12 @@ export default {
     toggleDarkMode() {
       this.darkMode = !this.darkMode;
     },
+    goToPrices() {
+      // Sidebar'ı kapat
+      this.drawer = false;
+      // Değerler sayfasına yönlendir
+      this.$router.push('/prices');
+    }
   }
 };
 </script>
@@ -145,5 +162,30 @@ export default {
   display: flex;
   flex-direction: column;
   background: #fdfdfd !important;
+}
+
+/* === DEĞERLER BUTONU === */
+.floating-values-btn {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 999;
+  background: rgba(20, 30, 48, 0.85) !important; /* Yarı şeffaf lacivert */
+  backdrop-filter: blur(4px);
+  font-family: 'Cinzel', serif !important;
+  font-weight: bold !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  border-radius: 16px !important;
+  width: 120px !important;
+  height: 60px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+  transition: all 0.3s ease !important;
+}
+
+.floating-values-btn:hover {
+  background: rgba(36, 59, 85, 0.95) !important; /* Hoverda daha az şeffaf */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
 }
 </style>

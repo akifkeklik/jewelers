@@ -13,6 +13,17 @@ import CalculatorPage from "@/components/Calculator.vue";
 
 Vue.use(Router);
 
+// 🔹 push ve replace metodlarını override et
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err);
+};
+
+const originalReplace = Router.prototype.replace;
+Router.prototype.replace = function replace(location) {
+    return originalReplace.call(this, location).catch(err => err);
+};
+
 export default new Router({
     mode: "history",  // URL'yi temiz tutmak için history modunu kullan
     routes: [

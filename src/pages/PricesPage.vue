@@ -93,9 +93,9 @@ export default {
   data() {
     return {
       headers: [
-        { text: "Tür", value: "tur", align: "left" },
-        { text: "Alış", value: "alis", align: "center", width: "150px" },
-        { text: "Satış", value: "satis", align: "center", width: "150px" },
+        { text: "Tür", value: "tur", align: "left", class: "header-tur" },
+        { text: "Alış", value: "alis", align: "center", width: "150px", class: "header-price" },
+        { text: "Satış", value: "satis", align: "center", width: "150px", class: "header-price" },
       ],
       altinFiyatlari: [],
       dovizFiyatlari: [],
@@ -138,6 +138,21 @@ export default {
   padding: 0 16px !important;
 }
 
+/* Başlık stilleri */
+.price-data-table ::v-deep(.header-tur) {
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  color: #141e30 !important;
+  letter-spacing: 0.5px;
+}
+
+.price-data-table ::v-deep(.header-price) {
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  color: #141e30 !important;
+  text-align: center !important;
+}
+
 /* Alış ve Satış sütunları için orta hizalama */
 .price-data-table ::v-deep(th:nth-child(2)),
 .price-data-table ::v-deep(th:nth-child(3)),
@@ -146,33 +161,85 @@ export default {
   text-align: center !important;
 }
 
+/* Tür sütunu stilleri */
+.price-data-table ::v-deep(td:first-child) {
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  color: #141e30 !important;
+  padding: 12px 16px !important;
+}
+
 .price-box {
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-weight: 700 !important;
+  font-size: 1.2rem !important;
   text-align: center;
-  padding: 6px;
+  padding: 10px 12px;
   white-space: nowrap;
+  color: #141e30 !important;
+  text-shadow: 0 0 8px rgba(20, 30, 48, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  margin: 4px 0;
+  border: 1px solid rgba(20, 30, 48, 0.1);
+}
+
+.price-box:hover {
+  background: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 12px rgba(20, 30, 48, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .text-green {
   color: #2e7d32 !important;
+  text-shadow: 0 0 8px rgba(46, 125, 50, 0.3) !important;
 }
 
 .text-red {
   color: #c62828 !important;
+  text-shadow: 0 0 8px rgba(198, 40, 40, 0.3) !important;
 }
 
 .card-title {
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
   text-transform: uppercase;
   letter-spacing: 1px;
-  padding: 8px 15px;
-  color: #2c2c2c;
-  border-radius: 4px;
+  padding: 12px 16px;
+  color: #141e30 !important;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(20, 30, 48, 0.1), transparent);
+  text-shadow: 0 0 6px rgba(20, 30, 48, 0.2);
+  margin-bottom: 16px;
 }
 
 .price-table-item {
   color: #333 !important;
+}
+
+/* Koyu mod için stiller */
+.v-application--is-dark .price-data-table ::v-deep(.header-tur),
+.v-application--is-dark .price-data-table ::v-deep(.header-price),
+.v-application--is-dark .price-data-table ::v-deep(td:first-child) {
+  color: #f5f5f5 !important;
+}
+
+.v-application--is-dark .price-box {
+  color: #f5f5f5 !important;
+  background: rgba(36, 59, 85, 0.3);
+  text-shadow: 0 0 10px rgba(192, 192, 192, 0.4);
+  border: 1px solid rgba(192, 192, 192, 0.2);
+}
+
+.v-application--is-dark .price-box:hover {
+  background: rgba(36, 59, 85, 0.5);
+  text-shadow: 0 0 15px rgba(192, 192, 192, 0.6);
+}
+
+.v-application--is-dark .card-title {
+  color: #f5f5f5 !important;
+  background: linear-gradient(90deg, rgba(36, 59, 85, 0.3), transparent);
+  text-shadow: 0 0 8px rgba(192, 192, 192, 0.3);
 }
 </style>
