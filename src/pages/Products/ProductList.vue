@@ -8,10 +8,18 @@
       hide-default-footer
       :items-per-page="10"
   >
+    <!-- Fiyat kolonunu ₺ ile formatla -->
     <template v-slot:item.fiyat="{ item }">
-      {{ item.fiyat.toLocaleString() }} ₺
+      <!-- Eğer 'fiyat' varsa onu kullan, yoksa 'price' -->
+      {{ (item.fiyat || item.price).toLocaleString() }} ₺
     </template>
 
+    <!-- Ürün adı -->
+    <template v-slot:item.ad="{ item }">
+      {{ item.ad || item.name }}
+    </template>
+
+    <!-- İşlemler -->
     <template v-slot:item.actions="{ item }">
       <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">
@@ -24,7 +32,7 @@
 
       <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon small v-bind="attrs" v-on="on" @click="$emit('urunSil', item.id)">
+          <v-btn icon small v-bind="attrs" v-on="on" @click="$emit('urunSil', item._id)">
             <v-icon color="red">mdi-delete</v-icon>
           </v-btn>
         </template>
@@ -43,12 +51,12 @@ export default {
   data() {
     return {
       headers: [
-        { text: "ID", value: "id" },
-        { text: "Ürün Adı", value: "ad" },
-        { text: "Kategori", value: "kategori" },
-        { text: "Gram", value: "gram" },
-        { text: "Fiyat", value: "fiyat" },
-        { text: "Barkod", value: "barkod" },
+        { text: "ID", value: "_id" },
+        { text: "Ürün Adı", value: "ad" },       // ad || name
+        { text: "Gram", value: "gram" },         // sadece bazı kayıtlarda var
+        { text: "Fiyat", value: "fiyat" },       // fiyat || price
+        { text: "Barkod", value: "barkod" },     // sadece bazı kayıtlarda var
+        { text: "Açıklama", value: "description" }, // çoğunda description var
         { text: "İşlemler", value: "actions", sortable: false }
       ]
     };

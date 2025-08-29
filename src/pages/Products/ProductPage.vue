@@ -13,7 +13,7 @@
           dense
           hide-details
           clearable
-          class="search-bar mb-5"
+          class="search-bar mb-5 rounded-input"
       />
 
       <!-- Kamera ile Barkod Tara -->
@@ -35,7 +35,6 @@
         <v-icon left>mdi-plus</v-icon>
         Yeni Ürün Ekle
       </v-btn>
-
     </v-card>
 
     <!-- Ürün Ekleme Dialogu -->
@@ -47,7 +46,7 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-          <ProductForm ref="productForm" @urunEklendi="urunEkleDialog" />
+          <ProductForm ref="productForm" @urunEklendi="urunKaydet" />
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -64,7 +63,7 @@
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="warning" text @click="deleteDialog=false">İptal</v-btn>
+          <v-btn color="warning" text @click="deleteDialog = false">İptal</v-btn>
           <v-btn color="red" text @click="confirmDelete">Sil</v-btn>
         </v-card-actions>
       </v-card>
@@ -80,16 +79,38 @@
         <v-divider></v-divider>
         <v-card-text>
           <v-form ref="duzenleForm" v-model="duzenleFormValid">
-            <v-text-field v-model="seciliUrun.ad" label="Ürün Adı" outlined dense />
-            <v-select :menu-props="{offsetY:true}" v-model="seciliUrun.kategori" :items="['Altın','Gümüş','Pırlanta','Gıda']" label="Kategori" outlined dense/>
-            <v-text-field v-model="seciliUrun.gram" type="number" label="Gram" outlined dense/>
-            <v-text-field v-model="seciliUrun.fiyat" type="number" label="Fiyat (₺)" outlined dense/>
-            <v-text-field v-model="seciliUrun.barkod" label="Barkod" outlined dense/>
+            <v-text-field v-model="seciliUrun.name" label="Ürün Adı" outlined dense class="rounded-input" />
+
+            <v-select
+                v-model="seciliUrun.categoryId"
+                :items="categories"
+                item-text="name"
+                item-value="_id"
+                label="Kategori"
+                outlined dense
+                class="rounded-input"
+            />
+
+            <v-select
+                v-model="seciliUrun.materialId"
+                :items="materials"
+                item-text="name"
+                item-value="_id"
+                label="Hammadde"
+                outlined dense
+                class="rounded-input"
+            />
+
+            <v-text-field v-model="seciliUrun.weight" type="number" label="Gram" outlined dense class="rounded-input" />
+            <v-text-field v-model="seciliUrun.price" type="number" label="Fiyat (₺)" outlined dense class="rounded-input" />
+            <v-text-field v-model="seciliUrun.barcode" label="Barkod" outlined dense class="rounded-input" />
+            <v-text-field v-model="seciliUrun.description" label="Açıklama" outlined dense class="rounded-input" />
+            <v-text-field v-model="seciliUrun.stock" type="number" label="Stok" outlined dense class="rounded-input" />
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" @click="duzenleDialog=false">İptal</v-btn>
+          <v-btn color="error" @click="duzenleDialog = false">İptal</v-btn>
           <v-btn color="primary" :disabled="!duzenleFormValid" @click="duzenlemeKaydet">Kaydet</v-btn>
         </v-card-actions>
       </v-card>
@@ -104,17 +125,16 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-          <!-- Video Akışı -->
           <video ref="video" width="100%" height="auto" autoplay></video>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" @click="kameraDialog=false; stopCamera()">Kapat</v-btn>
+          <v-btn color="error" @click="(kameraDialog = false), stopCamera()">Kapat</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <!-- Silme İptali ve Onayı için Snackbar -->
+    <!-- Snackbar -->
     <v-snackbar v-model="snackbar" color="error" timeout="3000">
       <span class="white--text">Ürün başarıyla silindi!</span>
       <v-btn color="pink" text @click="snackbar = false">Kapat</v-btn>
@@ -123,6 +143,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import ProductForm from "./ProductForm.vue";
 import ProductList from "./ProductList.vue";
 
@@ -132,77 +153,144 @@ export default {
     return {
       search: "",
       kameraDialog: false,
-      urunler: [
-        { id: 1, ad: "Gram Altın", kategori: "Altın", gram: 1, fiyat: 2500, barkod: "100001" },
-        { id: 2, ad: "Çeyrek Altın", kategori: "Altın", gram: 1.75, fiyat: 4200, barkod: "100002" },
-        { id: 3, ad: "Yarım Altın", kategori: "Altın", gram: 3.5, fiyat: 8400, barkod: "100003" },
-        { id: 4, ad: "Tam Altın (Cumhuriyet)", kategori: "Altın", gram: 7, fiyat: 16800, barkod: "100004" },
-        { id: 5, ad: "Gümüş Gram", kategori: "Gümüş", gram: 1, fiyat: 35, barkod: "100005" },
-        { id: 6, ad: "Gümüş Bileklik", kategori: "Gümüş", gram: 10, fiyat: 400, barkod: "100006" },
-        { id: 7, ad: "22 Ayar Bilezik", kategori: "Altın", gram: 15, fiyat: 37500, barkod: "100007" }
-      ],
+      urunler: [],
       duzenleDialog: false,
-      yeniDialog: false,
-      yeniUrunDialog: false,  // Yeni ürün ekleme dialogu
+      yeniUrunDialog: false,
       deleteDialog: false,
       seciliUrun: {},
       duzenleFormValid: false,
       urunSilId: null,
       snackbar: false,
-      videoStream: null,  // Video akışını tutacak değişken
+      videoStream: null,
+      categories: [],
+      materials: []
     };
   },
+  mounted() {
+    this.fetchProducts();
+    this.fetchCategories();
+    this.fetchMaterials();
+  },
   methods: {
-    urunEkleDialog(yeni) {
-      this.urunler.push(yeni);
-      this.yeniUrunDialog = false;
+    async fetchProducts() {
+      try {
+        const res = await axios.get("http://localhost:5000/api/products");
+        this.urunler = res.data;
+      } catch (err) {
+        console.error("Ürünler alınamadı:", err);
+      }
+    },
+    async fetchCategories() {
+      const res = await axios.get("http://localhost:5000/api/categories");
+      this.categories = res.data;
+    },
+    async fetchMaterials() {
+      const res = await axios.get("http://localhost:5000/api/materials");
+      this.materials = res.data;
+    },
+    async urunKaydet(yeni) {
+      try {
+        const res = await axios.post("http://localhost:5000/api/products", yeni);
+
+        // Mapping yap
+        const mapped = {
+          _id: res.data._id,
+          ad: res.data.name,
+          gram: res.data.weight,
+          fiyat: res.data.price,
+          barkod: res.data.barcode,
+          aciklama: res.data.description,
+          kategori: res.data.categoryId?.name || "",
+          hammadde: res.data.materialId?.name || "",
+          stok: res.data.stock
+        };
+
+        this.urunler.push(mapped);
+        this.yeniUrunDialog = false;
+      } catch (err) {
+        console.error("Ürün eklenemedi:", err.response?.data || err);
+      }
     },
     urunSil(id) {
       this.urunSilId = id;
       this.deleteDialog = true;
     },
-    confirmDelete() {
-      this.urunler = this.urunler.filter((u) => u.id !== this.urunSilId);
-      this.deleteDialog = false;
-      this.snackbar = true;
-    },
-    duzenlemeBaslat(urun) {
-      this.seciliUrun = { ...urun };
-      this.duzenleDialog = true;
-    },
-    duzenlemeKaydet() {
-      if (this.$refs.duzenleForm.validate()) {
-        const index = this.urunler.findIndex(u => u.id === this.seciliUrun.id);
-        if (index !== -1) {
-          this.$set(this.urunler, index, { ...this.seciliUrun });
-        }
-        this.duzenleDialog = false;
+    async confirmDelete() {
+      try {
+        await axios.delete(`http://localhost:5000/api/products/${this.urunSilId}`);
+        this.urunler = this.urunler.filter((u) => u._id !== this.urunSilId);
+        this.deleteDialog = false;
+        this.snackbar = true;
+      } catch (err) {
+        console.error("Silme hatası:", err);
       }
     },
+    duzenlemeBaslat(urun) {
+      this.seciliUrun = {
+        _id: urun._id,
+        name: urun.name || urun.ad,
+        categoryId: urun.categoryId || "",
+        materialId: urun.materialId || "",
+        weight: urun.weight || urun.gram,
+        price: urun.price || urun.fiyat,
+        barcode: urun.barcode || urun.barkod,
+        description: urun.description || urun.aciklama || "",
+        stock: urun.stock || 0
+      };
+      this.duzenleDialog = true;
+    },
+    async duzenlemeKaydet() {
+      if (this.$refs.duzenleForm.validate()) {
+        try {
+          const updated = await axios.put(
+              `http://localhost:5000/api/products/${this.seciliUrun._id}`,
+              this.seciliUrun
+          );
 
-    // Kamera akışını başlat
+          // Mapping yap
+          const mapped = {
+            _id: updated.data._id,
+            ad: updated.data.name,
+            gram: updated.data.weight,
+            fiyat: updated.data.price,
+            barkod: updated.data.barcode,
+            aciklama: updated.data.description,
+            kategori: updated.data.categoryId?.name || "",
+            hammadde: updated.data.materialId?.name || "",
+            stok: updated.data.stock
+          };
+
+          const index = this.urunler.findIndex((u) => u._id === this.seciliUrun._id);
+          if (index !== -1) {
+            this.$set(this.urunler, index, mapped);
+          }
+          this.duzenleDialog = false;
+        } catch (err) {
+          console.error("Güncelleme hatası:", err.response?.data || err);
+        }
+      }
+    },
     startCamera() {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true })
+        navigator.mediaDevices
+            .getUserMedia({ video: true })
             .then((stream) => {
               this.$refs.video.srcObject = stream;
               this.videoStream = stream;
             })
             .catch((error) => {
-              console.error('Kamera hatası:', error);
+              console.error("Kamera hatası:", error);
             });
       } else {
-        alert('Tarayıcınız kamera akışını desteklemiyor!');
+        alert("Tarayıcınız kamera akışını desteklemiyor!");
       }
     },
-
-    // Kamera akışını durdur
     stopCamera() {
       if (this.videoStream) {
         let tracks = this.videoStream.getTracks();
-        tracks.forEach(track => track.stop());
+        tracks.forEach((track) => track.stop());
       }
-    },
+    }
   },
   watch: {
     kameraDialog(newValue) {
@@ -211,7 +299,14 @@ export default {
       } else {
         this.stopCamera();
       }
-    },
-  },
+    }
+  }
 };
 </script>
+
+<style>
+.rounded-input .v-input__control,
+.rounded-input .v-field {
+  border-radius: 9999px !important;
+}
+</style>

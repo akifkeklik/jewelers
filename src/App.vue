@@ -20,7 +20,6 @@
     <!-- Sidebar -->
     <v-navigation-drawer
         v-model="drawer"
-        :mini-variant.sync="mini"
         app
         class="modern-sidebar"
     >
@@ -34,7 +33,7 @@
             class="sidebar-link"
         >
           <v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
-          <v-list-item-title v-if="!mini">{{ item.title }}</v-list-item-title>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -42,7 +41,7 @@
     <!-- İçerik -->
     <v-main>
       <v-container fluid class="pa-6 fill-height" :class="[darkMode ? 'dark-bg' : 'light-bg']">
-        <router-view  />
+        <router-view />
       </v-container>
     </v-main>
 
@@ -65,7 +64,6 @@ export default {
   data() {
     return {
       drawer: false, // Sidebar başlangıçta kapalı
-      mini: true,    // Menü ikon halinde başlasın
       darkMode: true, // Gece modu default
       items: [
         { title: "Ana Sayfa", icon: "mdi-home", path: "/dashboard" },
@@ -84,9 +82,7 @@ export default {
       this.darkMode = !this.darkMode;
     },
     goToPrices() {
-      // Sidebar'ı kapat
       this.drawer = false;
-      // Değerler sayfasına yönlendir
       this.$router.push('/prices');
     }
   }
@@ -101,16 +97,16 @@ export default {
 /* === APP BAR MODERN === */
 .app-bar {
   background: linear-gradient(90deg, #141e30, #243b55) !important;
-  color: #C0C0C0 !important; /* Pastel Gri */
-  font-family: 'Cinzel', serif; /* Başlık fontu - Cinzel */
+  color: #C0C0C0 !important;
+  font-family: 'Cinzel', serif;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 .diamond-icon {
-  color: #C0C0C0 !important; /* Pastel Gri */
+  color: #C0C0C0 !important;
   font-size: 28px;
 }
 .menu-btn {
-  color: #C0C0C0 !important; /* Pastel Gri */
+  color: #C0C0C0 !important;
 }
 .dark-toggle {
   color: #C0C0C0 !important;
@@ -118,24 +114,24 @@ export default {
 }
 .dark-toggle:hover {
   transform: rotate(15deg);
-  color: #B0B0B0 !important; /* Gri */
+  color: #B0B0B0 !important;
 }
 
 /* === SIDEBAR MODERN === */
 .modern-sidebar {
   background: linear-gradient(90deg, #141e30, #243b55) !important;
-  color: #C0C0C0 !important; /* Pastel Gri */
+  color: #C0C0C0 !important;
   box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.1);
 }
 .modern-sidebar .v-list-item,
 .modern-sidebar .v-icon {
-  color: #C0C0C0 !important; /* Pastel Gri */
+  color: #C0C0C0 !important;
 }
 .sidebar-link {
   transition: 0.3s ease;
   border-radius: 8px;
-  color: #C0C0C0 !important; /* Pastel Gri */
-  font-family: 'Cinzel', serif; /* Sidebar için Cinzel fontu */
+  color: #C0C0C0 !important;
+  font-family: 'Cinzel', serif;
   font-weight: 600;
 }
 .sidebar-link:hover {
@@ -167,28 +163,28 @@ export default {
 /* === DEĞERLER BUTONU === */
 .floating-values-btn {
   position: fixed !important;
-  bottom: 12px !important; /* Hafifçe yukarı kaydırdım */
-  right: 12px !important;  /* Hafifçe sola kaydırdım */
+  bottom: 12px !important;
+  right: 12px !important;
   z-index: 999;
-  background: rgba(20, 30, 48, 0.4) !important; /* Yarı şeffaf, daha ince bir lacivert */
-  backdrop-filter: blur(6px);  /* Daha belirgin bulanıklık */
+  background: rgba(20, 30, 48, 0.4) !important;
+  backdrop-filter: blur(6px);
   font-family: 'Cinzel', serif !important;
   font-weight: bold !important;
   letter-spacing: 1px !important;
   text-transform: uppercase !important;
-  border-radius: 12px !important; /* Yuvarlak köşeler */
-  width: 80px !important; /* Buton boyutunu küçültüyoruz */
-  height: 40px !important; /* Buton boyutunu küçültüyoruz */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important; /* Daha hafif gölge */
+  border-radius: 12px !important;
+  width: 80px !important;
+  height: 40px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
   transition: all 0.3s ease !important;
-  opacity: 0.8; /* Şeffaflık, daha az görünür */
-  font-size: 12px !important; /* Yazıyı küçülttüm */
+  opacity: 0.8;
+  font-size: 12px !important;
 }
 
 .floating-values-btn:hover {
-  background: rgba(36, 59, 85, 0.85) !important; /* Hoverda daha az şeffaf, daha koyu */
-  transform: translateY(-5px); /* Hoverda daha belirgin yükselme */
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important; /* Daha belirgin gölge */
-  opacity: 1; /* Hoverda opaklık tam olacak */
+  background: rgba(36, 59, 85, 0.85) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
+  opacity: 1;
 }
 </style>
